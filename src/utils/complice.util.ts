@@ -1,4 +1,4 @@
-import compliceApi from "../useCases/compliance/compliance-api.useCase";
+import compliceApi from "../ports/compliance-api.ports";
 
 async function getAuthCode(): Promise<string> {
     try {
