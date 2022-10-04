@@ -3,3 +3,9 @@
 - [ ] Criar rota de pessoa
 - [ ] Criar rota de login
 - [ ] Criar rota de conta
+
+Criar migrates:
+
+```
+npx knex migrate:make name
+```
