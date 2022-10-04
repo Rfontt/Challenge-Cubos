@@ -1,0 +1,25 @@
+version: '3.1'
+services:
+  app:
+    build: .
+    container_name: "api-server"
+    command: sh -c "npm run migrate && npm run dev"
+    ports:
+    - 8080:8080
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data 
+    links:
+      - database_postgress
+    depends_on:
+      - database_postgress
+    environment:
+      - DB_HOST=host.docker.internal
+      - DB_USER=postgres
+      - DB_PASS=postgres
+  database_postgress:
+    image: postgres:alpine
+    container_name: database_postgress
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
