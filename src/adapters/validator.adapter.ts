@@ -9,7 +9,7 @@ export default class ValidatorAdapter implements ValidatorI {
     }
     async cpf(document: string): Promise<boolean> {
         try {
-            await this.#api.post('https://compliance-api.cubos.io/cpf/validate', {
+            await this.#api.post('/cpf/validate', {
                 document
             });
 
