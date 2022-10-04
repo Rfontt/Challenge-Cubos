@@ -1,14 +1,16 @@
 import compliceApi from "../ports/compliance-api.port";
 
-function loginComplice() {
+async function loginComplice() {
     try {
-        compliceApi.post(
+        const token = await compliceApi.post(
             "/auth/code",
             {
-                "email": process.env.EMAIL,
-                "password": process.env.PASSWORD
+                email: process.env.EMAIL,
+                password: process.env.PASSWORD
             }
         );
+
+        return token;
     } catch(error) {
         throw new Error("Error making login");
     }

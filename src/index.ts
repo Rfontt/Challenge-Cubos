@@ -1,3 +1,3 @@
-import PeopleService from "./services/people.service";
+import * as dotenv from "dotenv";
 
-const peopleService = new PeopleService();
+dotenv.config();
