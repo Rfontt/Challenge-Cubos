@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-describe('Validate complice api ports - unit tests', () => {
+describe('Validate complice api use cases - unit tests', () => {
     test('Should return a body for a request in the complice API authentication', async () => {
         expect(jest.fn(() => Promise.resolve(getToken()))).not.toBeNull();
     });
