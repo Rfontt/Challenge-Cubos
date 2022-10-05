@@ -13,17 +13,15 @@ export default class PeopleRepository implements RepositoryI {
                 10
             );
 
-            const creating = await connection.insert({
+            await connection.insert({
                 name: peopleObject.name,
                 document: peopleObject.document,
                 password: hash,
-            });
-
-            console.log(creating);
+            }).table('people');
 
             return true;
         } catch (error) {
-            throw new Error("Error creating people.")
+            throw new Error("Error creating people.");
         }
     }
 }
