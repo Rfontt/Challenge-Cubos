@@ -1,3 +1,5 @@
+import { ValidatorI } from "./validator.interface";
+
 type PeopleType  = {
     id?: string;
     name: string;
@@ -8,7 +10,7 @@ type PeopleType  = {
 }
 
 interface PeopleI {
-    create(people: PeopleType): boolean;
+    create(people: PeopleType, validator: ValidatorI): Promise<boolean>;
 }
 
 export {
