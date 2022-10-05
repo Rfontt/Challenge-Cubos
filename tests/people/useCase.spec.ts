@@ -24,14 +24,14 @@ describe('Validate people useCase - unit tests', () => {
         }
 
         class ValidatorMock implements ValidatorI {
-            async cpf(document: string): Promise<boolean> {
+            cpf(document: string): boolean {
                 if (document.length === 11) {
                     return true;
                 } else {
                     return false;
                 }
             }
-            async cnpj(document: string): Promise<boolean> {
+            cnpj(document: string): boolean {
                 if (document.length === 14) {
                     return true;
                 } else {

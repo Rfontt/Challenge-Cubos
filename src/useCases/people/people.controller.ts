@@ -7,17 +7,19 @@ import compliceApi from "../../ports/compliance-api.ports";
 
 export default class PeopleController {
     static async create(req: Request, res: Response) {
-        const { people } = req.body;
-        const peopleBody: PeopleType = people;
+        const { name, document, password } = req.body;
+        const peopleBody: PeopleType = {
+            name, document, password
+        };
 
-        if (!peopleBody.name || peopleBody.document || peopleBody.password) {
+        if (!peopleBody.name || !peopleBody.document || !peopleBody.password) {
             return res.status(400).send({ message: "Bad request" });
         }
 
         const peoplseUseCase = new PeopleUseCase(new PeopleRepository());
         const createPeople = await peoplseUseCase.create(
             peopleBody,
-            new ValidatorAdapter(compliceApi),
+            new ValidatorAdapter(),
         );
 
         return res.status(createPeople.status).send(createPeople.message);

@@ -1,6 +1,6 @@
 interface ValidatorI {
-    cpf(document: string): Promise<boolean>;
-    cnpj(document: string): Promise<boolean>;
+    cpf(document: string): boolean;
+    cnpj(document: string): boolean;
 }
 
 export {
