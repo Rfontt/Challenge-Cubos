@@ -56,7 +56,10 @@ describe('Validate people useCase - unit tests', () => {
         const peopleUseCase = new PeopleUseCase(databaseMock);
         const result = await peopleUseCase.create(people, validatorMock);
 
-        expect(result).toStrictEqual(true);
+        expect(result).toStrictEqual({
+            message: "People created with success",
+            status: 201
+        });
     });
 
     test('Should not create a people(test.json file in mocks folders) when document property is a invalid cpf', async () => {
@@ -69,7 +72,10 @@ describe('Validate people useCase - unit tests', () => {
         const peopleUseCase = new PeopleUseCase(databaseMock);
         const result = await peopleUseCase.create(people, validatorMock);
 
-        expect(result).toStrictEqual(false);
+        expect(result).toStrictEqual({
+            message: "Invalid document",
+            status: 401
+        });
     });
 
     test('Should create a people(test.json file in mocks folders) when document property is a valid cnpj', async () => {
@@ -82,7 +88,10 @@ describe('Validate people useCase - unit tests', () => {
         const peopleUseCase = new PeopleUseCase(databaseMock);
         const result = await peopleUseCase.create(people, validatorMock);
 
-        expect(result).toStrictEqual(true);
+        expect(result).toStrictEqual({
+            message: "People created with success",
+            status: 201
+        });
     });
 
     test('Should not create a people(test.json file in mocks folders) when document property is a invalid cnpj', async () => {
@@ -95,7 +104,10 @@ describe('Validate people useCase - unit tests', () => {
         const peopleUseCase = new PeopleUseCase(databaseMock);
         const result = await peopleUseCase.create(people, validatorMock);
 
-        expect(result).toStrictEqual(false);
+        expect(result).toStrictEqual({
+            message: "Invalid document",
+            status: 401
+        });
     });
 
 });

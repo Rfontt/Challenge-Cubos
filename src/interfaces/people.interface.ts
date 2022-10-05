@@ -1,3 +1,4 @@
+import { MessagePattern } from "./message-pattern.interface";
 import { ValidatorI } from "./validator.interface";
 
 type PeopleType  = {
@@ -13,7 +14,7 @@ interface PeopleI {
     create(
         people: PeopleType,
         validator: ValidatorI,
-    ): Promise<boolean>;
+    ): Promise<MessagePattern>;
 }
 
 export {

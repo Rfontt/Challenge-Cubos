@@ -1,3 +1,4 @@
+import { MessagePattern } from "../../interfaces/message-pattern.interface";
 import { PeopleI, PeopleType } from "../../interfaces/people.interface";
 import { RepositoryI } from "../../interfaces/repository.interface";
 import { ValidatorI } from "../../interfaces/validator.interface";
@@ -9,7 +10,7 @@ export default class PeopleUseCase implements PeopleI {
         this.#repository = repository;
     }
 
-    async create(people: PeopleType, validator: ValidatorI): Promise<boolean> {
+    async create(people: PeopleType, validator: ValidatorI): Promise<MessagePattern> {
         try {
             let isValid = false;
 
@@ -21,14 +22,23 @@ export default class PeopleUseCase implements PeopleI {
             }
 
             if (!isValid) {
-                return false;
+                return {
+                    message: "Invalid document",
+                    status: 401
+                }
             }
 
             await this.#repository.create(people);
 
-            return true;
+            return {
+                message: "People created with success",
+                status: 201
+            };
         } catch (error) {
-            return false;
+            return {
+                message: "Internal server error",
+                status: 401
+            }
         }
     }
 }
