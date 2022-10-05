@@ -71,4 +71,31 @@ describe('Validate people useCase - unit tests', () => {
 
         expect(result).toStrictEqual(false);
     });
+
+    test('Should create a people(test.json file in mocks folders) when document property is a valid cnpj', async () => {
+        const people: PeopleType = {
+            name: "Rfontt technologies",
+            document: "00012345678900",
+            password: "test@@test"
+        }
+
+        const peopleUseCase = new PeopleUseCase(databaseMock);
+        const result = await peopleUseCase.create(people, validatorMock);
+
+        expect(result).toStrictEqual(true);
+    });
+
+    test('Should not create a people(test.json file in mocks folders) when document property is a invalid cnpj', async () => {
+        const people: PeopleType = {
+            name: "Rfontt",
+            document: "0001234567890023456",
+            password: "test@@test"
+        }
+
+        const peopleUseCase = new PeopleUseCase(databaseMock);
+        const result = await peopleUseCase.create(people, validatorMock);
+
+        expect(result).toStrictEqual(false);
+    });
+
 });
