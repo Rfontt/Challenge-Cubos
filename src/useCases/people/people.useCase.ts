@@ -24,7 +24,7 @@ export default class PeopleUseCase implements PeopleI {
                 return false;
             }
 
-            this.#repository.create(people);
+            await this.#repository.create(people);
 
             return true;
         } catch (error) {
