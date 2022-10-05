@@ -11,27 +11,26 @@ export default class PeopleUseCase implements PeopleI {
     }
 
     async create(people: PeopleType, validator: ValidatorI): Promise<MessagePattern> {
+        let isValid = false;
+        let document = people.document;
+        
+        document = document.split('.').join('');
+        document = document.split('-').join('');
+
+        if (document.length === 11) {
+            isValid = validator.cpf(document);
+        } else if (document.length === 14) {
+            isValid = validator.cnpj(document);
+        }
+
+        if (!isValid) {
+            return {
+                message: "Invalid document",
+                status: 401
+            }
+        }
+
         try {
-            let isValid = false;
-            let document = people.document;
-
-            document = document.split('.').join('');
-            document = document.split('-').join('');
-
-            if (document.length === 11) {
-                isValid = validator.cpf(document);
-
-            } else if (document.length === 14) {
-                isValid = validator.cnpj(document);
-            }
-
-            if (!isValid) {
-                return {
-                    message: "Invalid document",
-                    status: 401
-                }
-            }
-
             await this.#repository.create(people);
 
             return {
@@ -41,7 +40,7 @@ export default class PeopleUseCase implements PeopleI {
         } catch (error) {
             return {
                 message: "Internal server error",
-                status: 401
+                status: 500
             }
         }
     }

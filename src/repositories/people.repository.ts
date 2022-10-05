@@ -23,7 +23,7 @@ export default class PeopleRepository implements RepositoryI {
 
             return true;
         } catch (error) {
-            return false;
+            throw new Error("Error creating people.")
         }
     }
 }
