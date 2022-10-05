@@ -13,12 +13,16 @@ export default class PeopleUseCase implements PeopleI {
     async create(people: PeopleType, validator: ValidatorI): Promise<MessagePattern> {
         try {
             let isValid = false;
+            let document = people.document;
 
-            if (people.document.length === 11) {
-                isValid = await validator.cpf(people.document);
+            document = document.split('.').join('');
+            document = document.split('-').join('');
 
-            } else if (people.document.length === 14) {
-                isValid = await validator.cnpj(people.document);
+            if (document.length === 11) {
+                isValid = validator.cpf(document);
+
+            } else if (document.length === 14) {
+                isValid = validator.cnpj(document);
             }
 
             if (!isValid) {

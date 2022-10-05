@@ -22,6 +22,6 @@ export default class PeopleController {
             new ValidatorAdapter(),
         );
 
-        return res.status(createPeople.status).send(createPeople.message);
+        return res.status(createPeople.status).send({ message: createPeople.message });
     }
 }
