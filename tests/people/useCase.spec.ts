@@ -13,11 +13,13 @@ describe('Validate people useCase - unit tests', () => {
 
     beforeAll(() => {
         class DataBaseMock implements RepositoryI {
-            async create(data: Object): Promise<void> {
+            async create(data: Object): Promise<boolean> {
                 await fsPromises.writeFile(
                     path.resolve(__dirname, "..", "mocks", "test.json"),
                     JSON.stringify(data)
                 );
+
+                return true;
             }
         }
 

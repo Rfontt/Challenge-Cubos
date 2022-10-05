@@ -21,6 +21,14 @@ export default class ValidatorAdapter implements ValidatorI {
     }
     
     async cnpj(document: string): Promise<boolean> {
-        throw new Error("Method not implemented.");
+        try {
+            await this.#api.post('/cnpj/validate', {
+                document
+            });
+
+            return true;
+        } catch (error) {
+            return false;
+        }
     }
 }

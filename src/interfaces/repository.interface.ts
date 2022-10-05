@@ -1,5 +1,5 @@
 interface RepositoryI {
-    create(data: Object): Promise<void>;
+    create(data: Object): Promise<boolean>;
 }
 
 export {
