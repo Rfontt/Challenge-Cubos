@@ -10,7 +10,10 @@ type PeopleType  = {
 }
 
 interface PeopleI {
-    create(people: PeopleType, validator: ValidatorI): Promise<boolean>;
+    create(
+        people: PeopleType,
+        validator: ValidatorI,
+    ): Promise<boolean>;
 }
 
 export {
