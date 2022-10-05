@@ -10,6 +10,10 @@ export default class PeopleController {
         const { people } = req.body;
         const peopleBody: PeopleType = people;
 
+        if (!peopleBody.name || peopleBody.document || peopleBody.password) {
+            return res.status(400).send({ message: "Bad request" });
+        }
+
         const peoplseUseCase = new PeopleUseCase(new PeopleRepository());
         const createPeople = await peoplseUseCase.create(
             peopleBody,

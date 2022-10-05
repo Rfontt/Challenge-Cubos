@@ -1,3 +1,4 @@
+import { AuthCodeType, AuthTokenType } from "../interfaces/complie-api.interface";
 import compliceApi from "../ports/compliance-api.ports";
 
 async function getAuthCode(): Promise<string> {
@@ -10,7 +11,9 @@ async function getAuthCode(): Promise<string> {
             }
         );
 
-        return authCode.data.authCode;
+        const data: AuthCodeType = authCode.data;
+
+        return data.authCode;
     } catch(error) {
         throw new Error("Error getting auth code");
     }
@@ -20,14 +23,16 @@ async function getToken() {
     try {
         const authCode = await getAuthCode();
 
-        const token = await compliceApi.post(
+        const authToken = await compliceApi.post(
             "/auth/token",
             {
                 authCode
             }
         );
 
-        return token.data;
+        const data: AuthTokenType = authToken.data;
+
+        return data.accessToken;
     } catch(error) {
         console.log(error)
         throw new Error("Error getting token");
