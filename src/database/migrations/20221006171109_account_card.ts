@@ -7,11 +7,13 @@ export async function up(knex: Knex): Promise<void> {
         
         table.integer('account_id')
             .unsigned()
+            .notNullable()
             .references('id')
             .inTable('account');
 
             table.integer('card_id')
             .unsigned()
+            .notNullable()
             .references('id')
             .inTable('card');
 
@@ -22,4 +24,3 @@ export async function up(knex: Knex): Promise<void> {
 export async function down(knex: Knex): Promise<void> {
     return knex.schema.dropTable('account_card');
 }
-
