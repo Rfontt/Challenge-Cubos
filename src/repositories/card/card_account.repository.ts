@@ -25,7 +25,7 @@ export default class CardAccountRepository extends GeneralRepository implements 
             return database.select("*")
                 .table('account_card')
                 .join('card', 'card.id', '=', 'account_card.card_id')
-                .where('account_card.id', account_id);
+                .where('account_card.account_id', account_id);
         } catch (error) {
             throw new Error('Error selecting data');
         }
