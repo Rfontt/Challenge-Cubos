@@ -16,7 +16,6 @@ export default class PeopleUseCase implements PeopleI {
         
         document = document.split('.').join('');
         document = document.split('-').join('');
-
         people.document = document;
 
         if (document.length === 11) {
