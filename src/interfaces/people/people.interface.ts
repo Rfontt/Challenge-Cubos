@@ -7,8 +7,8 @@ type PeopleType  = {
     name: string;
     document: string;
     password: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+    created_at?: Date;
+    updated_at?: Date;
 }
 
 interface PeopleI {

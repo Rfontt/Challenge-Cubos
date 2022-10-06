@@ -42,10 +42,16 @@ export default class PeopleUseCase implements PeopleI {
                 password: hash,
             }
 
-            const peopleCreated = await this.#repository.create(dataToCreate, 'people');
+            const creatingPeople: PeopleType[] = await this.#repository.create(dataToCreate, 'people');
+            const peopleCreated = creatingPeople[0];
 
             return {
-                message: peopleCreated,
+                message: {
+                    id: peopleCreated.id,
+                    name: peopleCreated.name,
+                    created_at: peopleCreated.created_at,
+                    updated_at: peopleCreated.updated_at
+                },
                 status: 201
             };
         } catch (error) {

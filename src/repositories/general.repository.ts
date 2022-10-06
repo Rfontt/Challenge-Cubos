@@ -4,9 +4,7 @@ import { RepositoryI, WhereType } from '../interfaces/repository/repository.inte
 export default class GeneralRepository implements RepositoryI {
     async create(data: Object, table: string): Promise<any> {
         try {
-            await connection.insert(data).table(table).returning('*');
-
-            return true;
+            return await connection.insert(data).table(table).returning('*');
         } catch (error) {
             throw new Error("Error creating data.");
         }

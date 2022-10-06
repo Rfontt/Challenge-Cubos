@@ -4,7 +4,7 @@ type MessagePattern = {
 }
 
 type ObjectResponse = {
-    message: Object[];
+    message: Object[] | Object;
     error?: string;
     status: number
 }
