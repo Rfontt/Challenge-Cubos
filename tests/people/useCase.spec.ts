@@ -22,13 +22,22 @@ describe('Validate people useCase - unit tests', () => {
                 throw new Error("Method not implemented.");
             }
             
-            async create(data: Object, table: string): Promise<boolean> {
+            async create(data: Object, table: string): Promise<any> {
                 await fsPromises.writeFile(
                     path.resolve(__dirname, "..", "mocks", "test.json"),
                     JSON.stringify(data)
                 );
 
-                return true;
+                const people: PeopleType = data as PeopleType;
+
+                return [
+                    {
+                        id: 1,
+                        name: people.name,
+                        created_at: "2022-03-03",
+                        updated_at: "2022-03-03",
+                    },
+                ]
             }
             
         }
@@ -75,8 +84,15 @@ describe('Validate people useCase - unit tests', () => {
         const peopleUseCase = new PeopleUseCase(repositoryMock);
         const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
+        const expected = {
+            id: 1,
+            name: people.name,
+            created_at: "2022-03-03",
+            updated_at: "2022-03-03",
+        }
+
         expect(result).toStrictEqual({
-            message: "People created with success",
+            message: expected,
             status: 201
         });
     });
@@ -92,7 +108,8 @@ describe('Validate people useCase - unit tests', () => {
         const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
-            message: "Invalid document",
+            error: "Invalid document",
+            message: [],
             status: 401
         });
     });
@@ -107,8 +124,15 @@ describe('Validate people useCase - unit tests', () => {
         const peopleUseCase = new PeopleUseCase(repositoryMock);
         const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
+        const expected = {
+            id: 1,
+            name: people.name,
+            created_at: "2022-03-03",
+            updated_at: "2022-03-03",
+        }
+
         expect(result).toStrictEqual({
-            message: "People created with success",
+            message: expected,
             status: 201
         });
     });
@@ -124,7 +148,8 @@ describe('Validate people useCase - unit tests', () => {
         const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
-            message: "Invalid document",
+            error: "Invalid document",
+            message: [],
             status: 401
         });
     });
