@@ -5,9 +5,9 @@ import { AccountType } from "../../interfaces/account/account.interface";
 
 export default class AccountController {
     static async create(req: Request, res: Response) {
-        const { branch, account } = req.body;
+        const { branch, account, people_id } = req.body;
         const accountBody: AccountType = {
-            branch, account
+            branch, account, people_id
         };
 
         if (!accountBody.branch || !accountBody.account) {

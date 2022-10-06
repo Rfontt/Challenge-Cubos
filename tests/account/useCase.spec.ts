@@ -33,9 +33,9 @@ describe('Validate account useCase - unit tests', () => {
         const account = {
             branch: "001",
             account: "20333925",
+            people: 1
         }
         const expected = {
-            branch: "001",
             account: "2033392-5",
         }
 
@@ -50,6 +50,7 @@ describe('Validate account useCase - unit tests', () => {
         const account = {
             branch: "001",
             account: "2033392-5",
+            people_id: 1
         }
 
         const result = await accountUseCase.create(account);

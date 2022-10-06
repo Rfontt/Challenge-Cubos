@@ -6,6 +6,7 @@ type AccountType = {
     account: string;
     createdAt?: Date;
     updatedAt?: Date;
+    people_id: number;
 }
 
 interface AccountI {
