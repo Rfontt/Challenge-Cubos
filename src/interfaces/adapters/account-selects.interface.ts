@@ -1,7 +1,7 @@
-import { AccountI } from "../account/account.interface";
+import { AccountType } from "../account/account.interface";
 
 interface AccountSelectsI {
-    selectAllAccounts(value: any): Promise<AccountI>;
+    selectAllAccounts(value: any): Promise<Array<AccountType>>;
 }
 
 export {

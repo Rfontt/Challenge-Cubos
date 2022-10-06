@@ -12,7 +12,7 @@ export default class GeneralRepository implements RepositoryI {
         }
     }
 
-    async selectAll(table: string): Promise<Object> {
+    async selectAll(table: string): Promise<Array<Object>> {
         try {
             const data = await connection
                 .select("*")
@@ -24,7 +24,7 @@ export default class GeneralRepository implements RepositoryI {
         }
     }
 
-    async selectWhere(table: string, where: WhereType): Promise<Object> {
+    async selectWhere(table: string, where: WhereType): Promise<Array<Object>> {
         try {
             const data = await connection
                 .select("*")

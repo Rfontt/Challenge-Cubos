@@ -1,11 +1,11 @@
-import { AccountI } from "../interfaces/account/account.interface";
+import { AccountType } from "../interfaces/account/account.interface";
 import { AccountSelectsI } from "../interfaces/adapters/account-selects.interface";
 import { RepositoryI, WhereType } from "../interfaces/repository/repository.interface";
 
 export default class AccountSelectsAdapter implements AccountSelectsI {
     #repostory: RepositoryI;
 
-    async selectAllAccounts(value: any): Promise<AccountI> {
+    async selectAllAccounts(value: any): Promise<Array<AccountType>> {
         try {
             const where: WhereType = {
                 condition: 'people_id',
@@ -16,7 +16,7 @@ export default class AccountSelectsAdapter implements AccountSelectsI {
                 'account',
                 where
             );
-            const accountData = data as AccountI;
+            const accountData = data as Array<AccountType>;
 
             return accountData;
         } catch (error) {
