@@ -14,13 +14,11 @@ export default class CardAccountRepository extends GeneralRepository implements 
                 .where('cc.account_id', account_id);
             
         } catch (error) {
-            console.log(error);
-
             throw new Error('Error selecting data');
         }
     }
 
-    async getAllCards(account_id: number): Promise<Object[]> {
+    async getAllCardsByAccountID(account_id: number): Promise<Object[]> {
         try {
             return database.select("*")
                 .table('account_card')

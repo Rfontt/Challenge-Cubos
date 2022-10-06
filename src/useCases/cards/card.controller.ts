@@ -29,11 +29,11 @@ export default class CardController {
         return res.status(createCard.status).send({ message: createCard.message });
     }
 
-    static async getAllCards(req: Request, res: Response) {
+    static async getAllCardsByAccountID(req: Request, res: Response) {
         const { accountId } = req.params;
 
         const cards = new CardUseCase(new CardAccountRepository());
-        const allCards = await cards.getAllCards(parseInt(accountId, 10));
+        const allCards = await cards.getAllCardsByAccountID(parseInt(accountId, 10));
 
         if (allCards.error) {
             return res.status(allCards.status).send({ message: allCards.error });

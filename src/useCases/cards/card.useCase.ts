@@ -49,9 +49,9 @@ export default class CardUseCase implements CardsI {
         }
     }
 
-    async getAllCards(account_id: number): Promise<ObjectResponse> {
+    async getAllCardsByAccountID(account_id: number): Promise<ObjectResponse> {
         try {
-            const data = await this.#repository.getAllCards(account_id);
+            const data = await this.#repository.getAllCardsByAccountID(account_id);
 
             return {
                 message: data,

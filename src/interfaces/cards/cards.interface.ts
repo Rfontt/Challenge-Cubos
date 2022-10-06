@@ -10,7 +10,7 @@ type CardType = {
 
 interface CardsI {
     create(card: CardType, account_id: number): Promise<MessagePattern>;
-    getAllCards(account_id: number): Promise<ObjectResponse>;
+    getAllCardsByAccountID(account_id: number): Promise<ObjectResponse>;
 }
 
 export { CardType, CardsI };
