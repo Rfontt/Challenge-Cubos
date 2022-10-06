@@ -8,7 +8,7 @@ type CardType = {
 }
 
 interface CardsI {
-    create(card: CardType): Promise<MessagePattern>;
+    create(card: CardType, people_id: number): Promise<MessagePattern>;
 }
 
 export { CardType, CardsI };

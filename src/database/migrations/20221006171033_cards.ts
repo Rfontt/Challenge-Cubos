@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     return knex.schema.createTable('card', (table) => {
         table.increments('id').unsigned().primary();
         table.string('number').notNullable();
-        table.string('cvv').notNullable();
+        table.string('cvv', 3).notNullable();
         table.timestamps(true, true);
 
         table.integer('type_id')
