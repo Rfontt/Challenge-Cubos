@@ -23,6 +23,10 @@ export default class PeopleController {
             new EncriptyAdapter()
         );
 
+        if (createPeople.error) {
+            return res.status(createPeople.status).send({ message: createPeople.error });
+        }
+
         return res.status(createPeople.status).send({ message: createPeople.message });
     }
 }

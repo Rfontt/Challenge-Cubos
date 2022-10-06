@@ -1,4 +1,4 @@
-import { MessagePattern } from "../../interfaces/general/message-pattern.interface";
+import { ObjectResponse } from "../../interfaces/general/message-pattern.interface";
 import { PeopleI, PeopleType } from "../../interfaces/people/people.interface";
 import { RepositoryI } from "../../interfaces/repository/repository.interface";
 import { ValidatorI } from "../../interfaces/adapters/validator.interface";
@@ -11,7 +11,7 @@ export default class PeopleUseCase implements PeopleI {
         this.#repository = repository;
     }
 
-    async create(people: PeopleType, validator: ValidatorI, encripty: EncriptyI): Promise<MessagePattern> {
+    async create(people: PeopleType, validator: ValidatorI, encripty: EncriptyI): Promise<ObjectResponse> {
         let isValid = false;
         let document = people.document;
         
@@ -27,7 +27,8 @@ export default class PeopleUseCase implements PeopleI {
 
         if (!isValid) {
             return {
-                message: "Invalid document",
+                message: [],
+                error: "Invalid document",
                 status: 401
             }
         }
@@ -41,15 +42,16 @@ export default class PeopleUseCase implements PeopleI {
                 password: hash,
             }
 
-            await this.#repository.create(dataToCreate, 'people');
+            const peopleCreated = await this.#repository.create(dataToCreate, 'people');
 
             return {
-                message: "People created with success",
+                message: peopleCreated,
                 status: 201
             };
         } catch (error) {
             return {
-                message: "Internal server error",
+                message: [],
+                error: "Internal server error",
                 status: 500
             }
         }

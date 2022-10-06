@@ -4,7 +4,7 @@ type WhereType = {
 }
 
 interface RepositoryI {
-    create(data: Object, table: string): Promise<boolean>;
+    create(data: Object, table: string): Promise<any>;
     selectAll(table: string):  Promise<Array<Object>>;
     selectWhere(table: string, where: WhereType): Promise<Array<Object>>;
 }

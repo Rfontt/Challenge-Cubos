@@ -1,4 +1,4 @@
-import { MessagePattern } from "../general/message-pattern.interface";
+import { ObjectResponse } from "../general/message-pattern.interface";
 import { ValidatorI } from "../adapters/validator.interface";
 import { EncriptyI } from "../adapters/encripty.interface";
 
@@ -16,7 +16,7 @@ interface PeopleI {
         people: PeopleType,
         validator: ValidatorI,
         encripty: EncriptyI,
-    ): Promise<MessagePattern>;
+    ): Promise<ObjectResponse>;
 }
 
 export {

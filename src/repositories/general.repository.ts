@@ -2,9 +2,9 @@ import connection from '../database/connection';
 import { RepositoryI, WhereType } from '../interfaces/repository/repository.interface';
 
 export default class GeneralRepository implements RepositoryI {
-    async create(data: Object, table: string): Promise<boolean> {
+    async create(data: Object, table: string): Promise<any> {
         try {
-            await connection.insert(data).table(table);
+            await connection.insert(data).table(table).returning('*');
 
             return true;
         } catch (error) {
