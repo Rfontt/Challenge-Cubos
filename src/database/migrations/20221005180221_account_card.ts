@@ -5,12 +5,12 @@ export async function up(knex: Knex): Promise<void> {
     return knex.schema.createTable('account_card', (table) => {
         table.increments('id').unsigned().primary();
         
-        table.integer('id_account')
+        table.integer('account_id')
             .unsigned()
             .references('id')
             .inTable('account');
 
-            table.integer('id_card')
+            table.integer('card_id')
             .unsigned()
             .references('id')
             .inTable('card');

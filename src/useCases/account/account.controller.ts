@@ -10,7 +10,7 @@ export default class AccountController {
             branch, account, people_id
         };
 
-        if (!accountBody.branch || !accountBody.account) {
+        if (!accountBody.branch || !accountBody.account || !accountBody.people_id) {
             return res.status(400).send({ message: "Bad request" });
         }
 
