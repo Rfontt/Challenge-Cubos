@@ -23,6 +23,21 @@ export default class AccountController {
     }
 
     static async selectAllAccountToOnePeople(req: Request, res: Response) {
-        
+        const peoplseUseCase = new AccountUseCase(new Repository());
+
+        const { people_id } = req.params;
+
+        const selectAllAccountToOnePeople = await peoplseUseCase.selectAccountToOnePeople(
+            parseInt(people_id, 10)
+        );
+
+        if (selectAllAccountToOnePeople.error) {
+            return res.status(selectAllAccountToOnePeople.status)
+            .send({ error: selectAllAccountToOnePeople.error });
+        }
+
+
+        return res.status(selectAllAccountToOnePeople.status)
+            .send(selectAllAccountToOnePeople.message);
     }
 }

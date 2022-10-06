@@ -48,7 +48,7 @@ export default class AccountUseCase implements AccountI {
     async selectAccountToOnePeople(people_id: number): Promise<ObjectResponse> {
         try {
             const where: WhereType = {
-                condition: 'people_id',
+                condition: 'account.people_id',
                 value: people_id
             }
 
