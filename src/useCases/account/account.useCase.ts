@@ -10,12 +10,18 @@ export default class AccountUseCase implements AccountI {
     }
 
     async create(account: AccountType): Promise<MessagePattern> {
+        if (account.branch.length > 3) {
+            return {
+                message: "Invalid value to branch",
+                status: 400
+            }
+        }
+
         try {
             const accountValue = this.accountSettings(account.account);
-
             account.account = accountValue;
 
-            this.#repository.create(account, 'account');
+            await this.#repository.create(account, 'account');
 
             return {
                 message: "Account created with success",
