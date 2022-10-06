@@ -10,9 +10,9 @@ export default class CardUseCase implements CardsI {
     }
 
     async create(card: CardType, account_id: number): Promise<MessagePattern> {
-        if (card.cvv > 3) {
+        if (card.cvv.toString().length > 3) {
             return {
-                message: 'Invalid CVC',
+                message: 'Invalid CVV',
                 status: 400
             }
         }
