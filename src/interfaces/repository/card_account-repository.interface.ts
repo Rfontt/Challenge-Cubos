@@ -1,7 +1,7 @@
 import { RepositoryI } from "./repository.interface";
 
 interface CardAccountRepositoryI extends RepositoryI {
-    verifyIfCardsPhysicalAlreadyExists(people_id: number): Promise<Object[]>;
+    verifyIfCardsPhysicalAlreadyExists(account_id: number): Promise<Object[]>;
 }
 
 export {

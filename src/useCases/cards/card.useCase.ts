@@ -9,9 +9,18 @@ export default class CardUseCase implements CardsI {
         this.#repository = repository;
     }
 
-    async create(card: CardType, people_id: number): Promise<MessagePattern> {
+    async create(card: CardType, account_id: number): Promise<MessagePattern> {
+        if (card.cvv > 3) {
+            return {
+                message: 'Invalid CVC',
+                status: 400
+            }
+        }
+
         try {
-            const existsPhysicalCard = await this.#repository.verifyIfCardsPhysicalAlreadyExists(people_id);
+            const existsPhysicalCard = await this.#repository.verifyIfCardsPhysicalAlreadyExists(account_id);
+
+            console.log(existsPhysicalCard);
 
             if (existsPhysicalCard.length > 0) {
                 return {
