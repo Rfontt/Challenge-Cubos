@@ -3,6 +3,7 @@ import Repository from "../../repositories/general.repository";
 import PeopleUseCase from "./people.useCase";
 import ValidatorAdapter from "../../adapters/validator.adapter";
 import { PeopleType } from "../../interfaces/people/people.interface";
+import EncriptyAdapter from "../../adapters/encripty.adapter";
 
 export default class PeopleController {
     static async create(req: Request, res: Response) {
@@ -19,6 +20,7 @@ export default class PeopleController {
         const createPeople = await peoplseUseCase.create(
             peopleBody,
             new ValidatorAdapter(),
+            new EncriptyAdapter()
         );
 
         return res.status(createPeople.status).send({ message: createPeople.message });
