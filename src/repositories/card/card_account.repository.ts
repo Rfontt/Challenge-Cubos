@@ -6,12 +6,13 @@ import { CardAccountRepositoryI } from '../../interfaces/repository/card_account
 export default class CardAccountRepository extends GeneralRepository implements CardAccountRepositoryI {
     async verifyIfCardsPhysicalAlreadyExists(account_id: number) {
         try {
-            return await database.select('card.type_id')
-                .join('account', 'account.id', '=', 'account_card.account_id')
-                .join('card', 'card.id', '=', 'account_card.card_id')
-                .where('card.type_id', TypeEnum.PHYSICAL)
-                .where('account.id', account_id)
-                .table('account_card');
+            return database.select("cc.account_id")
+                .table('account_card as cc')
+                .join('card as ca', 'cc.card_id', '=', 'ca.id')
+                .join('account as acc', 'cc.account_id', 'acc.id')
+                .where('ca.type_id', TypeEnum.PHYSICAL)
+                .where('cc.account_id', account_id);
+            
         } catch (error) {
             console.log(error);
 
