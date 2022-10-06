@@ -6,17 +6,17 @@ import CardUseCase from "./card.useCase";
 export default class PeopleController {
     static async create(req: Request, res: Response) {
         const {
-            type,
+            type_id,
             number,
             cvv
         } = req.body;
         const { accountId } = req.params;
 
         const cardBody: CardType = {
-            type, number, cvv
+            type_id, number, cvv
         };
 
-        if (!cardBody.cvv || !cardBody.number || !cardBody.type) {
+        if (!cardBody.cvv || !cardBody.number || !cardBody.type_id) {
             return res.status(400).send({ message: "Bad request" });
         }
 
