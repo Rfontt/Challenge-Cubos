@@ -4,8 +4,8 @@ type AccountType = {
     id?: number;
     branch: string;
     account: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+    createdAt?: string;
+    updatedAt?: string;
     people_id: number;
 }
 

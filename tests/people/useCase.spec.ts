@@ -2,7 +2,7 @@ import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
 import path from 'path';
 import fs from 'fs';
 import fsPromises from 'fs/promises';
-import { RepositoryI } from "../../src/interfaces/repository/repository.interface";
+import { RepositoryI, WhereType } from "../../src/interfaces/repository/repository.interface";
 import PeopleUseCase from '../../src/useCases/people/people.useCase';
 import { PeopleType } from "../../src/interfaces/people/people.interface";
 import { ValidatorI } from "../../src/interfaces/adapters/validator.interface";
@@ -15,6 +15,14 @@ describe('Validate people useCase - unit tests', () => {
 
     beforeAll(() => {
         class RepositoryMock implements RepositoryI {
+            async selectAll(table: string): Promise<Object> {
+                throw new Error("Method not implemented.");
+            }
+
+            async selectWhere(table: string, where: WhereType): Promise<Object> {
+                throw new Error("Method not implemented.");
+            }
+
             async create(data: Object, table: string): Promise<boolean> {
                 await fsPromises.writeFile(
                     path.resolve(__dirname, "..", "mocks", "test.json"),
