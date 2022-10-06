@@ -1,5 +1,5 @@
-import { MessagePattern } from "./message-pattern.interface";
-import { ValidatorI } from "./validator.interface";
+import { MessagePattern } from "../general/message-pattern.interface";
+import { ValidatorI } from "../adapters/validator.interface";
 
 type PeopleType  = {
     id?: string;

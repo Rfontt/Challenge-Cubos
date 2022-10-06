@@ -1,4 +1,4 @@
-import { AuthCodeType, AuthTokenType } from "../interfaces/complie-api.interface";
+import { AuthCodeType, AuthTokenType } from "../interfaces/complice/complie-api.interface";
 import compliceApi from "../ports/compliance-api.ports";
 
 async function getAuthCode(): Promise<string> {

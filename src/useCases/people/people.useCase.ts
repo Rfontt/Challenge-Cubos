@@ -1,7 +1,7 @@
-import { MessagePattern } from "../../interfaces/message-pattern.interface";
-import { PeopleI, PeopleType } from "../../interfaces/people.interface";
-import { RepositoryI } from "../../interfaces/repository.interface";
-import { ValidatorI } from "../../interfaces/validator.interface";
+import { MessagePattern } from "../../interfaces/general/message-pattern.interface";
+import { PeopleI, PeopleType } from "../../interfaces/people/people.interface";
+import { RepositoryI } from "../../interfaces/repository/repository.interface";
+import { ValidatorI } from "../../interfaces/adapters/validator.interface";
 
 export default class PeopleUseCase implements PeopleI {
     #repository: RepositoryI;

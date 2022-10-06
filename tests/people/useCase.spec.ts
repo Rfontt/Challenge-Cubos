@@ -2,10 +2,10 @@ import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
 import path from 'path';
 import fs from 'fs';
 import fsPromises from 'fs/promises';
-import { RepositoryI } from "../../src/interfaces/repository.interface";
+import { RepositoryI } from "../../src/interfaces/repository/repository.interface";
 import PeopleUseCase from '../../src/useCases/people/people.useCase';
-import { PeopleType } from "../../src/interfaces/people.interface";
-import { ValidatorI } from "../../src/interfaces/validator.interface";
+import { PeopleType } from "../../src/interfaces/people/people.interface";
+import { ValidatorI } from "../../src/interfaces/adapters/validator.interface";
 
 describe('Validate people useCase - unit tests', () => {
     let databaseMock: RepositoryI;

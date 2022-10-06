@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs';
 
 import connection from '../database/connection';
-import { PeopleType } from '../interfaces/people.interface';
-import { RepositoryI } from '../interfaces/repository.interface';
+import { PeopleType } from '../interfaces/people/people.interface';
+import { RepositoryI } from '../interfaces/repository/repository.interface';
 
 export default class PeopleRepository implements RepositoryI {
     async create(data: Object): Promise<boolean> {

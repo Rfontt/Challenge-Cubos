@@ -1,5 +1,5 @@
 import { cnpj, cpf } from 'cpf-cnpj-validator';
-import { ValidatorI } from "../interfaces/validator.interface";
+import { ValidatorI } from "../interfaces/adapters/validator.interface";
 
 export default class ValidatorAdapter implements ValidatorI {
     cpf(document: string): boolean {

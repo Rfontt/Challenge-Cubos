@@ -2,8 +2,7 @@ import { Request, Response } from "express";
 import PeopleRepository from "../../repositories/people.repository";
 import PeopleUseCase from "./people.useCase";
 import ValidatorAdapter from "../../adapters/validator.adapter";
-import { PeopleType } from "../../interfaces/people.interface";
-import compliceApi from "../../ports/compliance-api.ports";
+import { PeopleType } from "../../interfaces/people/people.interface";
 
 export default class PeopleController {
     static async create(req: Request, res: Response) {
