@@ -3,7 +3,7 @@ import { ValidatorI } from "../adapters/validator.interface";
 import { EncriptyI } from "../adapters/encripty.interface";
 
 type PeopleType  = {
-    id?: string;
+    id?: number;
     name: string;
     document: string;
     password: string;

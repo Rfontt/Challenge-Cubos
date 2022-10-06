@@ -9,12 +9,12 @@ import { ValidatorI } from "../../src/interfaces/adapters/validator.interface";
 import { EncriptyI } from "../../src/interfaces/adapters/encripty.interface";
 
 describe('Validate people useCase - unit tests', () => {
-    let databaseMock: RepositoryI;
+    let repositoryMock: RepositoryI;
     let validatorMock: ValidatorI;
     let encriptyMock: EncriptyI;
 
     beforeAll(() => {
-        class DataBaseMock implements RepositoryI {
+        class RepositoryMock implements RepositoryI {
             async create(data: Object, table: string): Promise<boolean> {
                 await fsPromises.writeFile(
                     path.resolve(__dirname, "..", "mocks", "test.json"),
@@ -49,14 +49,14 @@ describe('Validate people useCase - unit tests', () => {
             }
         }
 
-        databaseMock = new DataBaseMock();
+        repositoryMock = new RepositoryMock();
         validatorMock = new ValidatorMock();
         encriptyMock = new EncriptyMock(); 
     });
 
     afterAll(() => {
         fs.unlinkSync(path.resolve(__dirname, "..", "mocks", "test.json"));
-    })
+    });
 
     test('Should create a people(test.json file in mocks folders) when document property is a valid cpf', async () => {
         const people: PeopleType = {
@@ -65,7 +65,7 @@ describe('Validate people useCase - unit tests', () => {
             password: "test@@test"
         }
 
-        const peopleUseCase = new PeopleUseCase(databaseMock);
+        const peopleUseCase = new PeopleUseCase(repositoryMock);
         const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
@@ -81,7 +81,7 @@ describe('Validate people useCase - unit tests', () => {
             password: "test@@test"
         }
 
-        const peopleUseCase = new PeopleUseCase(databaseMock);
+        const peopleUseCase = new PeopleUseCase(repositoryMock);
         const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
@@ -97,7 +97,7 @@ describe('Validate people useCase - unit tests', () => {
             password: "test@@test"
         }
 
-        const peopleUseCase = new PeopleUseCase(databaseMock);
+        const peopleUseCase = new PeopleUseCase(repositoryMock);
         const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
@@ -113,7 +113,7 @@ describe('Validate people useCase - unit tests', () => {
             password: "test@@test"
         }
 
-        const peopleUseCase = new PeopleUseCase(databaseMock);
+        const peopleUseCase = new PeopleUseCase(repositoryMock);
         const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({

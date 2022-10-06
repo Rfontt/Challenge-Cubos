@@ -8,7 +8,7 @@ export default class GeneralRepository implements RepositoryI {
 
             return true;
         } catch (error) {
-            throw new Error("Error creating people.");
+            throw new Error("Error creating data.");
         }
     }
 }

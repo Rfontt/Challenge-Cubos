@@ -1,5 +1,7 @@
+import { MessagePattern } from '../general/message-pattern.interface';
+
 type AccountType = {
-    id?: string;
+    id?: number;
     branch: string;
     account: string;
     createdAt?: Date;
@@ -7,7 +9,7 @@ type AccountType = {
 }
 
 interface AccountI {
-    create(account: AccountType): boolean;
+    create(account: AccountType): Promise<MessagePattern>;
 }
 
 export {
