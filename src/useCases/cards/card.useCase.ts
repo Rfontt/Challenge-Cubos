@@ -29,9 +29,17 @@ export default class CardUseCase implements CardsI {
                 }
             }
 
-            const cardID = await this.#repository.create(card, 'card');
+            const cardArray: CardType[] = await this.#repository.create(card, 'card');
+            const cardObject: CardType = cardArray[0]; 
+            const cardID = cardObject.id;
+            
 
-            console.log(cardID);
+            const creatingAssociation = await this.#repository.create({
+                account_id,
+                card_id: cardID
+            }, 'account_card');
+
+            console.log(creatingAssociation);
 
             return {
                 message: 'Created with success',
