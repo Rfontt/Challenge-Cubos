@@ -1,6 +1,6 @@
 import { AccountI, AccountType } from "../../interfaces/account/account.interface";
-import { MessagePattern } from "../../interfaces/general/message-pattern.interface";
-import { RepositoryI } from "../../interfaces/repository/repository.interface";
+import { MessagePattern, ObjectResponse } from "../../interfaces/general/message-pattern.interface";
+import { RepositoryI, WhereType } from "../../interfaces/repository/repository.interface";
 
 export default class AccountUseCase implements AccountI {
     #repository: RepositoryI;
@@ -8,7 +8,7 @@ export default class AccountUseCase implements AccountI {
     constructor(repository: RepositoryI) {
         this.#repository = repository;
     }
-
+    
     async create(account: AccountType): Promise<MessagePattern> {
         if (account.branch.length > 3) {
             return {
@@ -43,5 +43,31 @@ export default class AccountUseCase implements AccountI {
         }
 
         return accountSplit.join("");
+    }
+
+    async selectAccountToOnePeople(people_id: number): Promise<ObjectResponse> {
+        try {
+            const where: WhereType = {
+                condition: 'people_id',
+                value: people_id
+            }
+
+            const data = await this.#repository.selectWhere(
+                'account',
+                where
+            );
+            const accountData = data as Array<AccountType>;
+
+            return {
+                message: accountData,
+                status: 200
+            };
+        } catch (error) {
+            return {
+                message: [],
+                error: "Internal server error",
+                status: 500
+            };
+        }
     }
 }

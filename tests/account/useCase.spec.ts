@@ -2,6 +2,7 @@ import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
 import fs from 'fs';
 import fsPromises from 'fs/promises';
 import path from 'path';
+import { ObjectResponse } from "../../src/interfaces/general/message-pattern.interface";
 import { RepositoryI, WhereType } from "../../src/interfaces/repository/repository.interface";
 import AccountUseCase from '../../src/useCases/account/account.useCase';
 
@@ -67,5 +68,28 @@ describe('Validate account useCase - unit tests', () => {
             message: "Account created with success",
             status: 201
         });
+    });
+
+    test('Should return an array of people accounts type when call the method selectWhere', async () => {
+        const accountUseCase = new AccountUseCase(repositoryMock);
+        const spy = jest.spyOn(accountUseCase, 'selectAccountToOnePeople');
+
+        const expected: ObjectResponse = {
+            message: [
+                {
+                    id: 1,
+                    branch: "001",
+                    account: "2033392-5",
+                    createdAt: "2022-08-01T14:30:41.203653",
+                    updatedAt: "2022-08-01T14:30:41.203653",
+                    people_id: 1
+                }
+            ],
+            status: 200
+        }
+          
+        spy.mockReturnValue(Promise.resolve(expected));
+
+        expect(await accountUseCase.selectAccountToOnePeople(1)).toStrictEqual(expected);
     });
 });

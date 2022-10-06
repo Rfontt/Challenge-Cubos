@@ -3,6 +3,13 @@ type MessagePattern = {
     status: number;
 }
 
+type ObjectResponse = {
+    message: Object[];
+    error?: string;
+    status: number
+}
+
 export {
-    MessagePattern
+    MessagePattern,
+    ObjectResponse
 }

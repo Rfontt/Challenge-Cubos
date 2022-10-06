@@ -21,4 +21,8 @@ export default class AccountController {
 
         return res.status(createPeople.status).send({ message: createPeople.message });
     }
+
+    static async selectAllAccountToOnePeople(req: Request, res: Response) {
+        
+    }
 }

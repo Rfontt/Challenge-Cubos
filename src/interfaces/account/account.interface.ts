@@ -1,4 +1,4 @@
-import { MessagePattern } from '../general/message-pattern.interface';
+import { MessagePattern, ObjectResponse } from '../general/message-pattern.interface';
 
 type AccountType = {
     id?: number;
@@ -11,6 +11,7 @@ type AccountType = {
 
 interface AccountI {
     create(account: AccountType): Promise<MessagePattern>;
+    selectAccountToOnePeople(people_id: number): Promise<ObjectResponse>;
 }
 
 export {
