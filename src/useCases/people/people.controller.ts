@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import PeopleRepository from "../../repositories/people.repository";
+import Repository from "../../repositories/general.repository";
 import PeopleUseCase from "./people.useCase";
 import ValidatorAdapter from "../../adapters/validator.adapter";
 import { PeopleType } from "../../interfaces/people/people.interface";
@@ -15,7 +15,7 @@ export default class PeopleController {
             return res.status(400).send({ message: "Bad request" });
         }
 
-        const peoplseUseCase = new PeopleUseCase(new PeopleRepository());
+        const peoplseUseCase = new PeopleUseCase(new Repository());
         const createPeople = await peoplseUseCase.create(
             peopleBody,
             new ValidatorAdapter(),

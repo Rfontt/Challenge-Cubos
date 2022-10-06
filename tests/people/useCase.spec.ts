@@ -6,14 +6,16 @@ import { RepositoryI } from "../../src/interfaces/repository/repository.interfac
 import PeopleUseCase from '../../src/useCases/people/people.useCase';
 import { PeopleType } from "../../src/interfaces/people/people.interface";
 import { ValidatorI } from "../../src/interfaces/adapters/validator.interface";
+import { EncriptyI } from "../../src/interfaces/adapters/encripty.interface";
 
 describe('Validate people useCase - unit tests', () => {
     let databaseMock: RepositoryI;
     let validatorMock: ValidatorI;
+    let encriptyMock: EncriptyI;
 
     beforeAll(() => {
         class DataBaseMock implements RepositoryI {
-            async create(data: Object): Promise<boolean> {
+            async create(data: Object, table: string): Promise<boolean> {
                 await fsPromises.writeFile(
                     path.resolve(__dirname, "..", "mocks", "test.json"),
                     JSON.stringify(data)
@@ -21,6 +23,7 @@ describe('Validate people useCase - unit tests', () => {
 
                 return true;
             }
+            
         }
 
         class ValidatorMock implements ValidatorI {
@@ -40,8 +43,15 @@ describe('Validate people useCase - unit tests', () => {
             }
         }
 
+        class EncriptyMock implements EncriptyI {
+            async hash(value: string, size: number): Promise<string> {
+                return value + Date.now + size;
+            }
+        }
+
         databaseMock = new DataBaseMock();
         validatorMock = new ValidatorMock();
+        encriptyMock = new EncriptyMock(); 
     });
 
     afterAll(() => {
@@ -56,7 +66,7 @@ describe('Validate people useCase - unit tests', () => {
         }
 
         const peopleUseCase = new PeopleUseCase(databaseMock);
-        const result = await peopleUseCase.create(people, validatorMock);
+        const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
             message: "People created with success",
@@ -72,7 +82,7 @@ describe('Validate people useCase - unit tests', () => {
         }
 
         const peopleUseCase = new PeopleUseCase(databaseMock);
-        const result = await peopleUseCase.create(people, validatorMock);
+        const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
             message: "Invalid document",
@@ -88,7 +98,7 @@ describe('Validate people useCase - unit tests', () => {
         }
 
         const peopleUseCase = new PeopleUseCase(databaseMock);
-        const result = await peopleUseCase.create(people, validatorMock);
+        const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
             message: "People created with success",
@@ -104,7 +114,7 @@ describe('Validate people useCase - unit tests', () => {
         }
 
         const peopleUseCase = new PeopleUseCase(databaseMock);
-        const result = await peopleUseCase.create(people, validatorMock);
+        const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
             message: "Invalid document",
