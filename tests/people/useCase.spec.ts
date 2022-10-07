@@ -1,78 +1,15 @@
-import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
-import path from 'path';
-import fs from 'fs';
-import fsPromises from 'fs/promises';
-import { RepositoryI, WhereType } from "../../src/interfaces/repository/repository.interface";
+import { describe, test, expect } from "@jest/globals";
 import PeopleUseCase from '../../src/useCases/people/people.useCase';
 import { PeopleType } from "../../src/interfaces/people/people.interface";
-import { ValidatorI } from "../../src/interfaces/adapters/validator.interface";
-import { EncriptyI } from "../../src/interfaces/adapters/encripty.interface";
+import RepositoryMock from "../mocks/repository.mock";
+import ValidatorMock from "../mocks/validator.mock";
+import EncriptyMock from "../mocks/encripty.mock";
 
 describe('Validate people useCase - unit tests', () => {
-    let repositoryMock: RepositoryI;
-    let validatorMock: ValidatorI;
-    let encriptyMock: EncriptyI;
-
-    beforeAll(() => {
-        class RepositoryMock implements RepositoryI {
-            selectAll(table: string): Promise<Object[]> {
-                throw new Error("Method not implemented.");
-            }
-            selectWhere(table: string, where: WhereType): Promise<Object[]> {
-                throw new Error("Method not implemented.");
-            }
-            
-            async create(data: Object, table: string): Promise<any> {
-                await fsPromises.writeFile(
-                    path.resolve(__dirname, "..", "mocks", "test.json"),
-                    JSON.stringify(data)
-                );
-
-                const people: PeopleType = data as PeopleType;
-
-                return [
-                    {
-                        id: 1,
-                        name: people.name,
-                        created_at: "2022-03-03",
-                        updated_at: "2022-03-03",
-                    },
-                ]
-            }
-            
-        }
-
-        class ValidatorMock implements ValidatorI {
-            cpf(document: string): boolean {
-                if (document.length === 11) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            cnpj(document: string): boolean {
-                if (document.length === 14) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
-
-        class EncriptyMock implements EncriptyI {
-            async hash(value: string, size: number): Promise<string> {
-                return value + Date.now + size;
-            }
-        }
-
-        repositoryMock = new RepositoryMock();
-        validatorMock = new ValidatorMock();
-        encriptyMock = new EncriptyMock(); 
-    });
-
-    afterAll(() => {
-        fs.unlinkSync(path.resolve(__dirname, "..", "mocks", "test.json"));
-    });
+    const repositoryMock = new RepositoryMock();
+    const peopleUseCase = new PeopleUseCase(repositoryMock);
+    const validatorMock = new ValidatorMock();
+    const encriptyMock = new EncriptyMock();
 
     test('Should create a people(test.json file in mocks folders) when document property is a valid cpf', async () => {
         const people: PeopleType = {
@@ -80,16 +17,17 @@ describe('Validate people useCase - unit tests', () => {
             document: "77575451889",
             password: "test@@test"
         }
-
-        const peopleUseCase = new PeopleUseCase(repositoryMock);
-        const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
-
         const expected = {
             id: 1,
             name: people.name,
             created_at: "2022-03-03",
             updated_at: "2022-03-03",
         }
+
+        const spy = jest.spyOn(repositoryMock, 'create');
+        spy.mockReturnValue(Promise.resolve([expected]));
+        
+        const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
             message: expected,
@@ -103,8 +41,6 @@ describe('Validate people useCase - unit tests', () => {
             document: "123456",
             password: "test@@test"
         }
-
-        const peopleUseCase = new PeopleUseCase(repositoryMock);
         const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
@@ -120,16 +56,17 @@ describe('Validate people useCase - unit tests', () => {
             document: "00012345678900",
             password: "test@@test"
         }
-
-        const peopleUseCase = new PeopleUseCase(repositoryMock);
-        const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
-
         const expected = {
             id: 1,
             name: people.name,
             created_at: "2022-03-03",
             updated_at: "2022-03-03",
         }
+
+        const spy = jest.spyOn(repositoryMock, 'create');
+        spy.mockReturnValue(Promise.resolve([expected]));
+
+        const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
             message: expected,
@@ -143,8 +80,6 @@ describe('Validate people useCase - unit tests', () => {
             document: "0001234567890023456",
             password: "test@@test"
         }
-
-        const peopleUseCase = new PeopleUseCase(repositoryMock);
         const result = await peopleUseCase.create(people, validatorMock, encriptyMock);
 
         expect(result).toStrictEqual({
