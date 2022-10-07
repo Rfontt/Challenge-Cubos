@@ -41,4 +41,8 @@ export default class CardController {
 
         return res.status(allCards.status).send({ message: allCards.message });
     }
+
+    static async getAllCardsByPeople(req: Request, res: Response) {
+
+    }
 }
