@@ -6,7 +6,7 @@ export default class CardAccountMockRepository extends RepositoryMock implements
         throw new Error('Method not implemented.');
     }
 
-    verifyIfCardsPhysicalAlreadyExists(account_id: number): Promise<Object[]> {
-        throw new Error('Method not implemented.');
+    async verifyIfCardsPhysicalAlreadyExists(account_id: number): Promise<Object[]> {
+        return [{}];
     }
 }
