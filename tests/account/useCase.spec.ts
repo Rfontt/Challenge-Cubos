@@ -1,40 +1,14 @@
 import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
 import fs from 'fs';
-import fsPromises from 'fs/promises';
-import path from 'path';
 import { ObjectResponse } from "../../src/interfaces/general/message-pattern.interface";
-import { RepositoryI, WhereType } from "../../src/interfaces/repository/repository.interface";
 import AccountUseCase from '../../src/useCases/account/account.useCase';
+import RepositoryMock from '../mocks/repository.mock';
 
 describe('Validate account useCase - unit tests', () => {
-    let repositoryMock: RepositoryI;
+    const repositoryMock = new RepositoryMock();
     
-    beforeAll(() => {
-        class RepositoryMock implements RepositoryI {
-            selectAll(table: string): Promise<Object[]> {
-                throw new Error("Method not implemented.");
-            }
-            
-            selectWhere(table: string, where: WhereType): Promise<Object[]> {
-                throw new Error("Method not implemented.");
-            }
-
-            async create(data: Object, table: string): Promise<boolean> {
-                await fsPromises.writeFile(
-                    path.resolve(__dirname, "..", "mocks", "test.json"),
-                    JSON.stringify(data)
-                );
-
-                return true;
-            }
-            
-        }
-
-        repositoryMock = new RepositoryMock();
-    });
-
     afterAll(() => {
-        fs.unlinkSync(path.resolve(__dirname, "..", "mocks", "test.json"));
+        fs.unlinkSync(repositoryMock.getArchivePath());
     });
 
     test('Should add a - in account string', async () => {
