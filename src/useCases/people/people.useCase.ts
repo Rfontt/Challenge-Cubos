@@ -55,7 +55,6 @@ export default class PeopleUseCase implements PeopleI {
                 status: 201
             };
         } catch (error) {
-            console.log(error);
             return {
                 message: [],
                 error: "Internal server error",
