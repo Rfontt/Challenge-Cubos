@@ -34,4 +34,17 @@ export default class GeneralRepository implements RepositoryI {
             throw new Error(error);
         }
     }
+
+    async update(data: Object, table: string, where: WhereType): Promise<boolean> {
+        try {
+            await connection
+                .update(data)
+                .where(where.condition, where.value)
+                .table(table);
+
+            return true;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
 }
