@@ -6,6 +6,8 @@ export async function up(knex: Knex): Promise<void> {
         table.string('branch', 3).notNullable();
         table.string('account', 10).unique().notNullable();
 
+        table.double('balance', 255).defaultTo(0);
+
         table.integer('people_id')
             .notNullable()
             .unsigned()

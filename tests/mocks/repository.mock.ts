@@ -4,6 +4,9 @@ import fsPromises from 'fs/promises';
 import { RepositoryI, WhereType } from '../../src/interfaces/repository/repository.interface';
 
 export default class RepositoryMock implements RepositoryI {
+    update(data: Object, table: string, where: WhereType): Promise<boolean> {
+        throw new Error('Method not implemented.');
+    }
     getArchivePath() {
         return path.resolve(__dirname, ".", "archives", "test.json");
     } 

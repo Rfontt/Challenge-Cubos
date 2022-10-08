@@ -12,7 +12,13 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
     
     async debit(transaction: TransactionsType): Promise<TransactionsType> {
         try {
-            const data = await this.#repository.create(transaction, 'transaction');
+            const transactionToSave = {
+                value: transaction.value,
+                account_id: transaction.account.id,
+                description: transaction.description,
+                type_id: transaction.type
+            }
+            const data = await this.#repository.create(transactionToSave, 'transaction');
             const transactionObject: TransactionsType = data[0];
 
             const newBalance = { balance: transaction.value };

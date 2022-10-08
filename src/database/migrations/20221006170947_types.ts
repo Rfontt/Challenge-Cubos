@@ -10,6 +10,8 @@ export async function up(knex: Knex) {
                 return knex("type").insert([
                     { name: "VIRTUAL" },
                     { name: "PHYSICAL" },
+                    { name: "CREDIT" },
+                    { name: "DEBIT" },
                 ]);
             }
         ),
