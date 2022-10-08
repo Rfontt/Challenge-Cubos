@@ -1,8 +1,8 @@
 import { TransactionsType } from "../transactions/transactions.interface";
 
 interface TransactionTypeAdapterI {
-    debit(): Promise<TransactionsType>;
-    credit(): Promise<TransactionsType>;
+    debit(transaction: TransactionsType): Promise<TransactionsType>;
+    credit(transaction: TransactionsType): Promise<TransactionsType>;
 }
 
 export { TransactionTypeAdapterI };

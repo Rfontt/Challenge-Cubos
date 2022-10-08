@@ -16,11 +16,11 @@ export default class TransactionsUseCase implements TransactionsI {
             let isTransactionCreated: TransactionsType = transaction;
              
             if (transaction.type === TransactionsTypeEnum.DEBIT) {
-                const data = await adapter.debit();
+                const data = await adapter.debit(transaction);
 
                 isTransactionCreated = data;
             } else if (transaction.type === TransactionsTypeEnum.CREDIT)  {
-                const data = await adapter.debit();
+                const data = await adapter.debit(transaction);
 
                 isTransactionCreated = data;
             }

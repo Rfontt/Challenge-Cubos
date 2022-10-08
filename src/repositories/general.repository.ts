@@ -6,7 +6,7 @@ export default class GeneralRepository implements RepositoryI {
         try {
             return await connection.insert(data).table(table).returning('*');
         } catch (error) {
-            throw new Error("Error creating data.");
+            throw new Error(error);
         }
     }
 
@@ -18,7 +18,7 @@ export default class GeneralRepository implements RepositoryI {
 
             return data;
         } catch (error) {
-            throw new Error("Error selecting data.");
+            throw new Error(error);
         }
     }
 
@@ -31,7 +31,7 @@ export default class GeneralRepository implements RepositoryI {
 
             return data;
         } catch (error) {
-            throw new Error("Error selecting data.");
+            throw new Error(error);
         }
     }
 }
