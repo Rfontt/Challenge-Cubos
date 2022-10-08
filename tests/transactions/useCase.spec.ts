@@ -11,7 +11,7 @@ describe('Validate transactions useCase - unit tests', () => {
     const transactionsUseCase = new TransactionsUseCase(repositoryMock);
     const transactionAdapter = new TransactionTypeAdapter();
 
-    test('Should make a transaticion - debit type (without negatives values)', async () => {
+    test('Should make a transaticion - debit type (without negatives values) and change the amount of the account balance', async () => {
         const account: AccountType = {
             account: "123456",
             branch: "123",
@@ -49,5 +49,28 @@ describe('Validate transactions useCase - unit tests', () => {
 
         expect(result).toStrictEqual(expected);
         expect(resultData.account.balance).toBe(transactionCreatedWithNewBalanceToAccount.account.balance);
+    });
+
+    test('Should not accept nagative value', async () => {
+        const account: AccountType = {
+            account: "123456",
+            branch: "123",
+            balance: 0,
+            people_id: 1
+        }
+        const transaction: TransactionsType = {
+            account,
+            description: "Send money to my sister to go to the supermarket",
+            type: TransactionsTypeEnum.DEBIT,
+            value: -10
+        }
+
+        const result = await transactionsUseCase.makeTransaction(transaction, transactionAdapter);
+
+        expect(result).toStrictEqual({
+            message: [],
+            error: "Value not permitted",
+            status: 400
+        });
     });
 });

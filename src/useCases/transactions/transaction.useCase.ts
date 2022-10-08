@@ -12,6 +12,14 @@ export default class TransactionsUseCase implements TransactionsI {
     }
 
     async makeTransaction(transaction: TransactionsType, adapter: TransactionTypeAdapterI): Promise<ObjectResponse> {
+        if (transaction.value < 0) {
+            return {
+                message: [],
+                error: "Value not permitted",
+                status: 400
+            }
+        }
+
         try {
             let isTransactionCreated: TransactionsType = transaction;
              
