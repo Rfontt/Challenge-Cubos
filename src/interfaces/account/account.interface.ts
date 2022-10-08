@@ -4,6 +4,7 @@ type AccountType = {
     id?: number;
     branch: string;
     account: string;
+    balance?: number;
     createdAt?: string;
     updatedAt?: string;
     people_id: number;

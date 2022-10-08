@@ -5,3 +5,7 @@ type CardAccountType = {
     account: AccountType;
     card: CardType;
 }
+
+export {
+    CardAccountType,
+}
