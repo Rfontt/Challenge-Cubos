@@ -1,24 +1,23 @@
-import { AxiosRequestConfig } from "axios";
-import { ValidatorI } from "../interfaces/validator.interface";
+import { cnpj, cpf } from 'cpf-cnpj-validator';
+import { ValidatorI } from "../interfaces/adapters/validator.interface";
 
 export default class ValidatorAdapter implements ValidatorI {
-    #api
+    cpf(document: string): boolean {
+        const isValid = cpf.isValid(document);
 
-    constructor(api: AxiosRequestConfig) {
-        this.#api = api;
-    }
-    async cpf(document: string): Promise<boolean> {
-        try {
-            await this.#api.post('/cpf/validate', {
-                document
-            });
-
-            return true;
-        } catch (error) {
-            return false;
+        if (isValid) {
+            return true
         }
+
+        return false;
     }
-    async cnpj(document: string): Promise<boolean> {
-        throw new Error("Method not implemented.");
+    cnpj(document: string): boolean {
+        const isValid = cnpj.isValid(document);
+
+        if (isValid) {
+            return true;
+        }
+
+        return false;
     }
 }
