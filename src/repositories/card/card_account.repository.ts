@@ -1,6 +1,6 @@
 import database from '../../database/connection';
 import GeneralRepository from '../general.repository';
-import { TypeEnum } from '../../enums/card.enum';
+import { CardTypeEnum } from '../../enums/card.enum';
 import { CardAccountRepositoryI } from '../../interfaces/repository/card_account-repository.interface';
 
 export default class CardAccountRepository extends GeneralRepository implements CardAccountRepositoryI {
@@ -10,7 +10,7 @@ export default class CardAccountRepository extends GeneralRepository implements 
                 .table('account_card as cc')
                 .join('card as ca', 'cc.card_id', '=', 'ca.id')
                 .join('account as acc', 'cc.account_id', '=', 'acc.id')
-                .where('ca.type_id', TypeEnum.PHYSICAL)
+                .where('ca.type_id', CardTypeEnum.PHYSICAL)
                 .where('cc.account_id', account_id);
             
         } catch (error) {

@@ -1,9 +1,9 @@
-import { TypeEnum } from '../../enums/card.enum';
+import { CardTypeEnum } from '../../enums/card.enum';
 import { MessagePattern, ObjectResponse } from '../general/message-pattern.interface'
  
 type CardType = {
     id?: number;
-    type_id: TypeEnum;
+    type_id: CardTypeEnum;
     number: string;
     cvv: number;
 }

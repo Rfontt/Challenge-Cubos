@@ -1,4 +1,4 @@
-import { TypeEnum } from "../../enums/card.enum";
+import { CardTypeEnum } from "../../enums/card.enum";
 import { CardsI, CardType } from "../../interfaces/cards/cards.interface";
 import { MessagePattern, ObjectResponse } from "../../interfaces/general/message-pattern.interface";
 import { CardAccountRepositoryI } from "../../interfaces/repository/card_account-repository.interface";
@@ -21,7 +21,7 @@ export default class CardUseCase implements CardsI {
         try {
             const existsPhysicalCard = await this.#repository.verifyIfCardsPhysicalAlreadyExists(account_id);
 
-            if (existsPhysicalCard.length > 0 && card.type_id === TypeEnum.PHYSICAL) {
+            if (existsPhysicalCard.length > 0 && card.type_id === CardTypeEnum.PHYSICAL) {
                 return {
                     message: 'Physical card already exists',
                     status: 406
