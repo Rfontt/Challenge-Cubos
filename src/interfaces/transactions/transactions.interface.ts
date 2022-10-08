@@ -1,6 +1,7 @@
 import { TransactionsTypeEnum } from '../../enums/transation.enum';
 import { ObjectResponse } from '../general/message-pattern.interface';
 import { AccountType } from '../account/account.interface';
+import { TransactionTypeAdapterI } from '../adapters/transaction-type.interface';
 
 type TransactionsType = {
     id?: number;
@@ -14,7 +15,7 @@ type TransactionsType = {
 }
 
 interface TransactionsI {
-    makeTransaction(transaction: TransactionsType): Promise<ObjectResponse>;
+    makeTransaction(transaction: TransactionsType, adapter: TransactionTypeAdapterI): Promise<ObjectResponse>;
 }
 
 export { TransactionsI, TransactionsType };

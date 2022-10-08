@@ -1,4 +1,8 @@
-interface TransactionTypeAdapter {
-    debit(): Promise<void>;
-    credit(): Promise<void>;
+import { TransactionsType } from "../transactions/transactions.interface";
+
+interface TransactionTypeAdapterI {
+    debit(): Promise<TransactionsType>;
+    credit(): Promise<TransactionsType>;
 }
+
+export { TransactionTypeAdapterI };
