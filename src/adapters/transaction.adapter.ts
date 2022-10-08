@@ -1,8 +1,9 @@
 import { TransactionTypeAdapterI } from '../interfaces/adapters/transaction-type.interface';
+import { WhereType } from '../interfaces/repository/repository.interface';
 import { TransactionsType } from '../interfaces/transactions/transactions.interface';
 import GeneralRepository from '../repositories/general.repository';
 
-export default class EncriptyAdapter implements TransactionTypeAdapterI {
+export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
     #repository: GeneralRepository;
 
     constructor() {
@@ -11,12 +12,17 @@ export default class EncriptyAdapter implements TransactionTypeAdapterI {
     
     async debit(transaction: TransactionsType): Promise<TransactionsType> {
         try {
-            const data = this.#repository.create(transaction, 'transaction');
+            const data = await this.#repository.create(transaction, 'transaction');
             const transactionObject: TransactionsType = data[0];
+
+            const newBalance = { balance: transaction.value };
+            const where: WhereType = { condition: 'id', value: transaction.account.id };
+
+            await this.#repository.update(newBalance, 'account', where);
 
             return transactionObject;
         } catch (error) {
-            throw new error(error);
+            throw new Error("Internal server error");
         }
     }
     credit(transaction: TransactionsType): Promise<TransactionsType> {

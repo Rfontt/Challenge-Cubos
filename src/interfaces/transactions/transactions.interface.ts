@@ -11,7 +11,6 @@ type TransactionsType = {
     account: AccountType
     createdAt?: string;
     updatedAt?: string;
-
 }
 
 interface TransactionsI {
