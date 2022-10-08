@@ -15,6 +15,7 @@ describe('Validate transactions useCase - unit tests', () => {
         const account: AccountType = {
             account: "123456",
             branch: "123",
+            balance: 0,
             people_id: 1
         }
         const transaction: TransactionsType = {
@@ -24,16 +25,29 @@ describe('Validate transactions useCase - unit tests', () => {
             value: 10000
         }
 
+        const changeAccountBalance = {
+            ...account,
+            balance: 10000
+        }
+
+        const transactionCreatedWithNewBalanceToAccount = {
+            ...transaction,
+            account: changeAccountBalance
+        }
+
+
         const expected = {
-            message: transaction,
+            message: transactionCreatedWithNewBalanceToAccount,
             status: 201
         }
 
         const spy = jest.spyOn(transactionAdapter, 'debit');
-        spy.mockReturnValue(Promise.resolve(transaction));
+        spy.mockReturnValue(Promise.resolve(transactionCreatedWithNewBalanceToAccount));
 
         const result = await transactionsUseCase.makeTransaction(transaction, transactionAdapter);
+        const resultData: TransactionsType = result.message as TransactionsType;
 
         expect(result).toStrictEqual(expected);
+        expect(resultData.account.balance).toBe(transactionCreatedWithNewBalanceToAccount.account.balance);
     });
 });
