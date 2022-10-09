@@ -1,7 +1,8 @@
 import { TransactionsTypeEnum } from "../../enums/transation.enum";
+import { AccountType } from "../../interfaces/account/account.interface";
 import { TransactionTypeAdapterI } from "../../interfaces/adapters/transaction-type.interface";
 import { ObjectResponse } from "../../interfaces/general/message-pattern.interface";
-import { RepositoryI } from "../../interfaces/repository/repository.interface";
+import { RepositoryI, WhereType } from "../../interfaces/repository/repository.interface";
 import { TransactionsI, TransactionsType } from '../../interfaces/transactions/transactions.interface';
 
 export default class TransactionsUseCase implements TransactionsI {
@@ -12,6 +13,14 @@ export default class TransactionsUseCase implements TransactionsI {
     }
 
     async makeTransaction(transaction: TransactionsType, adapter: TransactionTypeAdapterI): Promise<ObjectResponse> {
+        if (transaction.type !== TransactionsTypeEnum.CREDIT && transaction.type !== TransactionsTypeEnum.DEBIT) {
+            return {
+                message: [],
+                error: "Type not permitted",
+                status: 400
+            }
+        }
+
         if (transaction.value < 0) {
             return {
                 message: [],
@@ -28,7 +37,7 @@ export default class TransactionsUseCase implements TransactionsI {
 
                 isTransactionCreated = data;
             } else if (transaction.type === TransactionsTypeEnum.CREDIT)  {
-                const data = await adapter.debit(transaction);
+                const data = await adapter.credit(transaction);
 
                 isTransactionCreated = data;
             }
@@ -36,6 +45,94 @@ export default class TransactionsUseCase implements TransactionsI {
             return {
                 message: isTransactionCreated,
                 status: 201
+            }
+        } catch (error) {
+            return {
+                message: [],
+                error: "Internal server error",
+                status: 500
+            }
+        }
+    }
+
+    async makeInternalTransaction(
+        transaction: TransactionsType,
+        adapter: TransactionTypeAdapterI,
+        account_sender: number,
+    ): Promise<ObjectResponse> {
+        if (transaction.type !== TransactionsTypeEnum.CREDIT && transaction.type !== TransactionsTypeEnum.DEBIT) {
+            return {
+                message: [],
+                error: "Type not permitted",
+                status: 400
+            }
+        }
+        
+        if (transaction.value < 0) {
+            return {
+                message: [],
+                error: "Value not permitted",
+                status: 400
+            }
+        }
+        
+        try {
+            const internalTransaction: TransactionsType = await adapter.internal(transaction, account_sender);
+
+            return {
+                message: internalTransaction,
+                status: 201
+            }
+        } catch (error) {
+            return {
+                message: [],
+                error: "Internal server error",
+                status: 500
+            }
+        }
+    }
+
+    async getBalanceOneAccount(account_id: number): Promise<ObjectResponse> {
+        try {
+            const where: WhereType = { condition: 'id', value: account_id };
+
+            const data: Object[] = await this.#repository.selectWhere('account', where)
+
+            if (data.length === 0) {
+                return {
+                    message: [],
+                    error: "Data Not found",
+                    status: 404
+                } 
+            }
+
+            const dataObject = data[0];
+            const account = dataObject as AccountType;
+
+            return {
+                message: {
+                    balance: account.balance
+                },
+                status: 200
+            }
+        } catch (error) {
+            return {
+                message: [],
+                error: "Internal server error",
+                status: 500
+            }
+        }
+    }
+
+    async getTransactions(account_id: number): Promise<ObjectResponse> {
+        try {
+            const where: WhereType = { condition: 'receiverAccountId', value: account_id };
+
+            const data = await this.#repository.selectWhere('transaction', where);
+
+            return {
+                message: data,
+                status: 200
             }
         } catch (error) {
             return {
