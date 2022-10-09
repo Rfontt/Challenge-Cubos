@@ -9,4 +9,6 @@ transactionRoute.post(
     TransactionController.makeInternalTransaction
 );
 
+transactionRoute.get('/accounts/:accountId/balance', TransactionController.getBalanceOneAccount);
+
 export default transactionRoute;

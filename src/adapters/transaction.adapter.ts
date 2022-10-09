@@ -25,11 +25,7 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
             
             const recipientDetails = await this.selectAccountDetails(parseInt(`${transaction.account.id}`));
 
-            console.log(recipientDetails);
-
             const newValueToRecipient = transaction.value + (recipientDetails.balance ? recipientDetails.balance : 0);
-
-            console.log(newValueToRecipient);
 
             await this.updateBalance(newValueToRecipient, transaction.account.id);
 

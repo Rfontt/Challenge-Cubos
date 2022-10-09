@@ -1,7 +1,8 @@
 import { TransactionsTypeEnum } from "../../enums/transation.enum";
+import { AccountType } from "../../interfaces/account/account.interface";
 import { TransactionTypeAdapterI } from "../../interfaces/adapters/transaction-type.interface";
 import { ObjectResponse } from "../../interfaces/general/message-pattern.interface";
-import { RepositoryI } from "../../interfaces/repository/repository.interface";
+import { RepositoryI, WhereType } from "../../interfaces/repository/repository.interface";
 import { TransactionsI, TransactionsType } from '../../interfaces/transactions/transactions.interface';
 
 export default class TransactionsUseCase implements TransactionsI {
@@ -65,6 +66,29 @@ export default class TransactionsUseCase implements TransactionsI {
             return {
                 message: internalTransaction,
                 status: 201
+            }
+        } catch (error) {
+            return {
+                message: [],
+                error: "Internal server error",
+                status: 500
+            }
+        }
+    }
+
+    async getBalanceOneAccount(account_id: number): Promise<ObjectResponse> {
+        try {
+            const where: WhereType = { condition: 'id', value: account_id };
+
+            const data: Object[] = await this.#repository.selectWhere('account', where);
+            const dataObject = data[0];
+            const account = dataObject as AccountType;
+
+            return {
+                message: {
+                    balance: account.balance
+                },
+                status: 200
             }
         } catch (error) {
             return {
