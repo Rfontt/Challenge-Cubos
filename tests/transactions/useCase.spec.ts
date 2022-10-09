@@ -72,4 +72,41 @@ describe('Validate transactions useCase - unit tests', () => {
             status: 400
         });
     });
+
+    test('Should create a transaction internal', async () => {
+        const account: AccountType = {
+            account: "123456",
+            branch: "123",
+            balance: 0,
+            people_id: 1
+        }
+        const transaction: TransactionsType = {
+            account,
+            description: "Send money to my sister to go to the supermarket",
+            type: TransactionsTypeEnum.DEBIT,
+            value: 35.10
+        }
+
+        const account_sender = 1;
+
+        const expected = {
+            id: 1,
+            value: transaction.value,
+            description: transaction.description,
+            account,
+            type: TransactionsTypeEnum.DEBIT
+        }
+
+        const spy = jest.spyOn(transactionAdapter, 'internal');
+
+        spy.mockReturnValue(Promise.resolve(expected));
+
+        const makeInternalTransaction = await transactionsUseCase.makeInternalTransaction(
+            transaction, transactionAdapter, account_sender
+        );
+
+        const result = makeInternalTransaction.message;
+
+        expect(result).toStrictEqual(expected)
+    });
 });

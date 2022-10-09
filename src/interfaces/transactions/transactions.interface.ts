@@ -15,6 +15,11 @@ type TransactionsType = {
 
 interface TransactionsI {
     makeTransaction(transaction: TransactionsType, adapter: TransactionTypeAdapterI): Promise<ObjectResponse>;
+    makeInternalTransaction(
+        transaction: TransactionsType,
+        adapter: TransactionTypeAdapterI,
+        account_sender: number
+    ): Promise<ObjectResponse>;
 }
 
 export { TransactionsI, TransactionsType };
