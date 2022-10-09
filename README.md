@@ -25,7 +25,7 @@ ou
 docker-compose up --build -d
 ```
 
-OBS: Já deixei um usuário com senha no arquivo knexfile.ts, caso essa etapa dê algum erro para você,no arquivo ``.env`` adicione as seguintes informações do banco de dados:
+OBS: Já deixei um usuário com senha no arquivo knexfile.ts, caso essa etapa dê algum erro para você, no arquivo ``.env`` adicione as seguintes informações do banco de dados:
 
 ```ts
 POSTGRES_PASSWORD=free
@@ -153,8 +153,8 @@ BODY:
 ```json
 {
 	"type_id": 1,
-  "number": "214 4336 789 22",
-  "cvv": 125
+	"number": "214 4336 789 22",
+	"cvv": 125
 }
 ```
 **OBS: type 1 = VIRTUAL**
