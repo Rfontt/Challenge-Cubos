@@ -11,7 +11,7 @@ export default class TransactionsUseCase implements TransactionsI {
     constructor(repository: RepositoryI) {
         this.#repository = repository
     }
-    
+
     async makeTransaction(transaction: TransactionsType, adapter: TransactionTypeAdapterI): Promise<ObjectResponse> {
         if (transaction.value < 0) {
             return {
@@ -80,7 +80,16 @@ export default class TransactionsUseCase implements TransactionsI {
         try {
             const where: WhereType = { condition: 'id', value: account_id };
 
-            const data: Object[] = await this.#repository.selectWhere('account', where);
+            const data: Object[] = await this.#repository.selectWhere('account', where)
+
+            if (data.length === 0) {
+                return {
+                    message: [],
+                    error: "Data Not found",
+                    status: 404
+                } 
+            }
+
             const dataObject = data[0];
             const account = dataObject as AccountType;
 
@@ -88,6 +97,25 @@ export default class TransactionsUseCase implements TransactionsI {
                 message: {
                     balance: account.balance
                 },
+                status: 200
+            }
+        } catch (error) {
+            return {
+                message: [],
+                error: "Internal server error",
+                status: 500
+            }
+        }
+    }
+
+    async getTransactions(account_id: number): Promise<ObjectResponse> {
+        try {
+            const where: WhereType = { condition: 'receiverAccountId', value: account_id };
+
+            const data = await this.#repository.selectWhere('transaction', where);
+
+            return {
+                message: data,
                 status: 200
             }
         } catch (error) {

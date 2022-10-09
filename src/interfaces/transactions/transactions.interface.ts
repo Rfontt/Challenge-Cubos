@@ -21,6 +21,7 @@ interface TransactionsI {
         account_sender: number
     ): Promise<ObjectResponse>;
     getBalanceOneAccount(account_id: number): Promise<ObjectResponse>;
+    getTransactions(account_id: number): Promise<ObjectResponse>
 }
 
 export { TransactionsI, TransactionsType };

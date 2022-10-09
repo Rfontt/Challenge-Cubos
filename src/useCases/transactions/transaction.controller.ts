@@ -90,4 +90,17 @@ export default class TransactionsController {
 
         return res.status(result.status).send({ message: result.message });
     }
+
+    static async getAllTransactions(req: Request, res: Response) {
+        const { accountId } = req.params;
+
+        const transactionsUseCase = new TransactionsUseCase(new GeneralRepository());
+        const result = await transactionsUseCase.getTransactions(parseInt(accountId));
+
+        if (result.error) {
+            return res.status(result.status).send({ message: result.error });
+        }
+
+        return res.status(result.status).send({ message: result.message });
+    }
 }
