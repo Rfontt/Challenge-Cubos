@@ -100,7 +100,7 @@ describe('Validate transactions useCase - unit tests', () => {
             balance: 20,
         }
         jest.clearAllMocks();
-        const spy = jest.spyOn(transactionAdapter, 'selectSenderAccountDatails');
+        const spy = jest.spyOn(transactionAdapter, 'selectAccountDetails');
         spy.mockClear();
 
         spy.mockReturnValue(Promise.resolve(account_sender));

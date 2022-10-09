@@ -22,8 +22,16 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
             }
             const data = await this.#repository.create(transactionToSave, 'transaction');
             const transactionObject: TransactionsType = data[0];
+            
+            const recipientDetails = await this.selectAccountDetails(parseInt(`${transaction.account.id}`));
 
-            await this.updateBalance(transaction.value, transaction.account.id);
+            console.log(recipientDetails);
+
+            const newValueToRecipient = transaction.value + (recipientDetails.balance ? recipientDetails.balance : 0);
+
+            console.log(newValueToRecipient);
+
+            await this.updateBalance(newValueToRecipient, transaction.account.id);
 
             const response: Object = {
                 id: transactionObject.id,
@@ -48,7 +56,7 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
             let isTransactionCreated: TransactionsType = transaction;
         
             if (transaction.type === TransactionsTypeEnum.DEBIT) {
-                const senderDetails = await this.selectSenderAccountDatails(account_sender);    
+                const senderDetails = await this.selectAccountDetails(account_sender);    
                 const senderBalance = senderDetails.balance ? senderDetails.balance : 0;
         
                 if (!(senderBalance > transaction.value)) {
@@ -58,7 +66,7 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
                 const result = await this.debit(transaction);
                 const newValueToRecipient = senderBalance - transaction.value;
         
-                await this.updateBalance(newValueToRecipient, account_sender);
+                await this.updateBalance(newValueToRecipient, senderDetails.id);
         
                 isTransactionCreated = result;
             } else if (transaction.type === TransactionsTypeEnum.CREDIT) {
@@ -84,7 +92,7 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
         }
     }
 
-    async selectSenderAccountDatails(account_id: number): Promise<AccountType> {
+    async selectAccountDetails(account_id: number): Promise<AccountType> {
         try {
             const where: WhereType = {
                 condition: 'id', value: account_id
