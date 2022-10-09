@@ -17,7 +17,7 @@ ou
 docker-compose up --build -d
 ```
 
-OBS: Já deixei um usuário com senha no arquivo knexfile.ts, caso essa etapa dê algum erro para você crie um arquivo ``.env`` com as seguintes informações do banco de dados:
+OBS: Já deixei um usuário com senha no arquivo knexfile.ts, caso essa etapa dê algum erro para você,crie um arquivo ``.env`` com as seguintes informações do banco de dados:
 
 ```ts
 POSTGRES_PASSWORD=free
