@@ -1,6 +1,7 @@
 <h1 align="center">Challenge - CUBOS</h1>
 
 Repositório feito para realizar o desafio da construção de uma API referente a área financeira.
+Ele foi desenvolvido usando clean architecture, TDD e design patterns como adapters, ports, repositories e injeção de dependência.
 
 ## Rodar projeto com docker compose
 
@@ -94,3 +95,11 @@ npm run dev
 - http://localhost:8080/accounts/:accountId/balance => ***GET***
 
 - http://localhost:8080/accounts/:accountId/transactions => ***GET***
+
+## Testes
+
+Como dito, esse projeto foi desenvolvido com o uso de TDD, então caso queira rodar os testes use:
+
+```
+npm run test
+```
