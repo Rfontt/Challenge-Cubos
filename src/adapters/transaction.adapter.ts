@@ -26,7 +26,7 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
             const recipientDetails = await this.selectAccountDetails(parseInt(`${transaction.account.id}`));
 
             const newValueToRecipient = transaction.value + (recipientDetails.balance ? recipientDetails.balance : 0);
-
+            
             await this.updateBalance(newValueToRecipient, transaction.account.id);
 
             const response: Object = {
@@ -57,8 +57,6 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
             const recipientDetails = await this.selectAccountDetails(parseInt(`${transaction.account.id}`));
             const newValueToRecipient = (recipientDetails.balance ? recipientDetails.balance : 0) -  transaction.value;
 
-            console.log(newValueToRecipient);
-
             await this.updateBalance(newValueToRecipient, transaction.account.id);
 
             const response: Object = {
@@ -76,6 +74,10 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
     }
 
     async internal(transaction: TransactionsType, account_sender: number): Promise<TransactionsType> {
+        if (transaction.account.id === account_sender) {
+            throw new Error('Invalid account');
+        }
+
         try {
             let isTransactionCreated: TransactionsType = transaction;
         
@@ -83,7 +85,7 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
                 const senderDetails = await this.selectAccountDetails(account_sender);    
                 const senderBalance = senderDetails.balance ? senderDetails.balance : 0;
         
-                if (!(senderBalance > transaction.value)) {
+                if (!(senderBalance > transaction.value) && senderBalance !== transaction.value) {
                     throw new Error('Transaction not permitted');
                 }
                 
