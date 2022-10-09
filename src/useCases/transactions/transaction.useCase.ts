@@ -61,7 +61,7 @@ export default class TransactionsUseCase implements TransactionsI {
         
         try {
             const internalTransaction: TransactionsType = await adapter.internal(transaction, account_sender);
-            
+
             return {
                 message: internalTransaction,
                 status: 201
