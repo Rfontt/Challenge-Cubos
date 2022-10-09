@@ -16,16 +16,12 @@ export default class LoginUseCase implements LoginI {
             const where: WhereType = { condition: 'document', value: people.document };
             const data: Object[] = await this.#repository.selectWhere('people', where);
 
-            console.log(data);
-
             if (data.length > 0) {
                 const peopleData = data[0] as PeopleType;
                 const comparePassword = await bcrypt.compare(
                     people.password,
                     peopleData.password
                 );
-                
-                console.log(comparePassword);
 
                 if (comparePassword) {
                     const tokenGenerated = jwt.sign({
