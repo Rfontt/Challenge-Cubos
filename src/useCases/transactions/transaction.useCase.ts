@@ -13,6 +13,14 @@ export default class TransactionsUseCase implements TransactionsI {
     }
 
     async makeTransaction(transaction: TransactionsType, adapter: TransactionTypeAdapterI): Promise<ObjectResponse> {
+        if (transaction.type !== TransactionsTypeEnum.CREDIT && transaction.type !== TransactionsTypeEnum.DEBIT) {
+            return {
+                message: [],
+                error: "Type not permitted",
+                status: 400
+            }
+        }
+
         if (transaction.value < 0) {
             return {
                 message: [],
@@ -29,7 +37,7 @@ export default class TransactionsUseCase implements TransactionsI {
 
                 isTransactionCreated = data;
             } else if (transaction.type === TransactionsTypeEnum.CREDIT)  {
-                const data = await adapter.debit(transaction);
+                const data = await adapter.credit(transaction);
 
                 isTransactionCreated = data;
             }
@@ -52,6 +60,14 @@ export default class TransactionsUseCase implements TransactionsI {
         adapter: TransactionTypeAdapterI,
         account_sender: number,
     ): Promise<ObjectResponse> {
+        if (transaction.type !== TransactionsTypeEnum.CREDIT && transaction.type !== TransactionsTypeEnum.DEBIT) {
+            return {
+                message: [],
+                error: "Type not permitted",
+                status: 400
+            }
+        }
+        
         if (transaction.value < 0) {
             return {
                 message: [],

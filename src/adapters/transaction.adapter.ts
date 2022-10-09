@@ -44,7 +44,35 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
     }
 
     async credit(transaction: TransactionsType): Promise<TransactionsType> {
-        throw new Error('method not implemented');
+        try {
+            const transactionToSave = {
+                value: transaction.value,
+                receiverAccountId: transaction.account.id,
+                description: transaction.description,
+                type_id: transaction.type
+            }
+            const data = await this.#repository.create(transactionToSave, 'transaction');
+            const transactionObject: TransactionsType = data[0];
+
+            const recipientDetails = await this.selectAccountDetails(parseInt(`${transaction.account.id}`));
+            const newValueToRecipient = (recipientDetails.balance ? recipientDetails.balance : 0) -  transaction.value;
+
+            console.log(newValueToRecipient);
+
+            await this.updateBalance(newValueToRecipient, transaction.account.id);
+
+            const response: Object = {
+                id: transactionObject.id,
+                value: transactionObject.value,
+                description: transactionObject.description,
+                createdAt: transactionObject.created_at,
+                updatedAt: transactionObject.updated_at
+            }
+
+            return response as TransactionsType;
+        } catch (error) {
+            throw new Error("Internal server error");
+        }
     }
 
     async internal(transaction: TransactionsType, account_sender: number): Promise<TransactionsType> {
