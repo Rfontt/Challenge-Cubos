@@ -142,4 +142,8 @@ export default class TransactionsUseCase implements TransactionsI {
             }
         }
     }
+
+    async revert(accountId: number, transactionId: number): Promise<ObjectResponse> {
+        throw new Error("Method not implemented.");
+    }
 }

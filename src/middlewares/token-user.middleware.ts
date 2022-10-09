@@ -9,18 +9,16 @@ export default function tokenAuthorization(
     const { authorization } = req.headers;
 
     if (!authorization) {
-        return res.status(403);
+        return res.status(401).send({ message: "Invalid token" });
     }
 
     const [bearer, token] = authorization.split(" ");
 
     try {
-        verify(token, `${process.env.KEY}`);
+        verify(token, process.env.JWT_KEY || "");
 
         return next();
     } catch (error) {
-        return res.status(401).json({
-            message: "Invalid token"
-        });
+        return res.status(401).json({ message: "Invalid token" });
     }
 }
