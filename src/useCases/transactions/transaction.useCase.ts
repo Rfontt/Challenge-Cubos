@@ -69,7 +69,7 @@ export default class TransactionsUseCase implements TransactionsI {
         } catch (error) {
             return {
                 message: [],
-                error: "Internal server error",
+                error: error,
                 status: 500
             }
         }

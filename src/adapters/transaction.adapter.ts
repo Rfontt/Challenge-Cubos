@@ -89,9 +89,9 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
             const where: WhereType = {
                 condition: 'id', value: account_id
             };
-            const result: Object = await this.#repository.selectWhere('account', where);
+            const result: Object[] = await this.#repository.selectWhere('account', where);
 
-            return result as AccountType;
+            return result[0] as AccountType;
         } catch (error) {
             throw new Error("Error updating data");
         }

@@ -30,10 +30,48 @@ export default class TransactionsController {
         }
 
         const transactionsUseCase = new TransactionsUseCase(new GeneralRepository());
-        const result = await transactionsUseCase.makeTransaction(transaction, new TransactionTypeAdapter);
+        const result = await transactionsUseCase.makeTransaction(transaction, new TransactionTypeAdapter());
 
         if (result.error) {
+            return res.status(result.status).send({ message: result.error });
+        }
 
+        return res.status(result.status).send({ message: result.message });
+    }
+
+    static async makeInternalTransaction(req: Request, res: Response) {
+        const {
+            value,
+            description,
+            type_id,
+            receiverAccountId
+        } = req.body;
+        const { accountId } = req.params;
+
+        if (!value || !description || !type_id || !receiverAccountId) {
+            return res.status(400).send({ message: "Bad request" });
+        }
+
+        const transaction: TransactionsType = {
+            account: {
+                id: parseInt(receiverAccountId, 10),
+                branch: "",
+                people_id: 0,
+                account: ""
+            },
+            value,
+            description,
+            type: type_id
+        }
+
+        const transactionsUseCase = new TransactionsUseCase(new GeneralRepository());
+        const result = await transactionsUseCase.makeInternalTransaction(
+            transaction,
+            new TransactionTypeAdapter(),
+            parseInt(accountId, 10)
+        );
+
+        if (result.error) {
             return res.status(result.status).send({ message: result.error });
         }
 
