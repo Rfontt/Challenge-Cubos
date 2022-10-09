@@ -8,9 +8,9 @@ export default {
         client: 'pg',
         connection: {
            host: 'db',
-           user: `${process.env.POSTGRES_USER}`,
-           password: `${process.env.POSTGRES_PASSWORD}`,
-           database: `${process.env.POSTGRES_DB}`
+           user: process.env.POSTGRES_USER || "free",
+           password: process.env.POSTGRES_PASSWORD || "free",
+           database: process.env.POSTGRES_DB || "cubos"
         },
         pool: {
             min: 2,
