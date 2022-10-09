@@ -14,7 +14,7 @@ export async function up(knex: Knex): Promise<void> {
             .references('id')
             .inTable('type');
 
-        table.integer('account_id')
+        table.integer('receiverAccountId')
             .unsigned()
             .notNullable()
             .references('id')

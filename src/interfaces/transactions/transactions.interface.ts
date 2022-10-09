@@ -9,8 +9,8 @@ type TransactionsType = {
     description: string;
     type: TransactionsTypeEnum;
     account: AccountType
-    createdAt?: string;
-    updatedAt?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 interface TransactionsI {

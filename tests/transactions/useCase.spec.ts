@@ -35,7 +35,6 @@ describe('Validate transactions useCase - unit tests', () => {
             account: changeAccountBalance
         }
 
-
         const expected = {
             message: transactionCreatedWithNewBalanceToAccount,
             status: 201

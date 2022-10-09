@@ -14,7 +14,7 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
         try {
             const transactionToSave = {
                 value: transaction.value,
-                account_id: transaction.account.id,
+                receiverAccountId: transaction.account.id,
                 description: transaction.description,
                 type_id: transaction.type
             }
@@ -26,7 +26,15 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
 
             await this.#repository.update(newBalance, 'account', where);
 
-            return transactionObject;
+            const response: Object = {
+                id: transactionObject.id,
+                value: transactionObject.value,
+                description: transactionObject.description,
+                createdAt: transactionObject.created_at,
+                updatedAt: transactionObject.updated_at
+            }
+
+            return response as TransactionsType;
         } catch (error) {
             throw new Error("Internal server error");
         }
