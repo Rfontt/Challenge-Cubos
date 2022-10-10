@@ -5,13 +5,13 @@ type AccountType = {
     branch: string;
     account: string;
     balance?: number;
-    createdAt?: string;
-    updatedAt?: string;
+    created_at?: string;
+    updated_at?: string;
     people_id: number;
 }
 
 interface AccountI {
-    create(account: AccountType): Promise<MessagePattern>;
+    create(account: AccountType): Promise<ObjectResponse>;
     selectAccountToOnePeople(people_id: number): Promise<ObjectResponse>;
 }
 
