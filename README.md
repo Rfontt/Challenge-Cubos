@@ -1,7 +1,7 @@
 <h1 align="center">Challenge - CUBOS</h1>
 
 Repositório feito para realizar o desafio da construção de uma API referente a área financeira.
-Ele foi desenvolvido usando clean architecture, TDD e design patterns como adapters, ports, repositories e injeção de dependência.
+Ele foi desenvolvido usando clean architecture, TDD e design patterns como: adapters, ports, useCases, repositories e dependency injection.
 
 ## Antes de rodar o projeto
 
@@ -196,6 +196,8 @@ BODY:
 - http://localhost:8080/accounts/:accountId/balance => ***GET***
 
 - http://localhost:8080/accounts/:accountId/transactions => ***GET***
+
+- http://localhost:8080/accounts/accountId/transactions/transactionId/revert => ***POST***
 
 ## Testes
 
