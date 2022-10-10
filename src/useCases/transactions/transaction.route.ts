@@ -25,4 +25,10 @@ transactionRoute.get(
     TransactionController.getAllTransactions
 );
 
+transactionRoute.post(
+    '/accounts/:accountId/transactions/:transactionId/revert',
+    tokenAuthorization,
+    TransactionController.revert
+);
+
 export default transactionRoute;

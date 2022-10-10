@@ -1,7 +1,7 @@
 <h1 align="center">Challenge - CUBOS</h1>
 
 Repositório feito para realizar o desafio da construção de uma API referente a área financeira.
-Ele foi desenvolvido usando clean architecture, TDD e design patterns como adapters, ports, repositories e injeção de dependência.
+Ele foi desenvolvido usando clean architecture, TDD e design patterns como: adapters, ports, useCases, repositories e dependency injection.
 
 ## Antes de rodar o projeto
 
@@ -52,24 +52,38 @@ docker exec -it database psql --username free --dbname cubos
 
 ## Rodar o projeto sem docker
 
-1. Para isso é necessário que você ajuste o arquivo ``knexfile.ts``:
+1. Baixar dependências:
+
+Com o ci, você baixa as dependências na versão exata que foi instalada no projeto.
+
+```
+npm ci
+```
+
+ou 
+
+```
+npm install
+```
+
+2. Depois disso, é necessário que você ajuste o arquivo ``knexfile.ts``:
 
 ```ts
  connection: {
    host: "SEU HOST",
    user: "SEU USER",
-   password: "SUA SENHA",
+   password: "SUA PASSWORD",
    database: "SEU DATABASE"
 },
 ```
 
-2. Depois é preciso rodar no terminal o seguinte comando:
+3. Logo após, é preciso rodar no terminal o seguinte comando:
 
 ```
 npm run migrate
 ```
 
-3. E por último executar o servidor:
+4. E por último executar o servidor:
 
 ```
 npm run dev
@@ -197,9 +211,17 @@ BODY:
 
 - http://localhost:8080/accounts/:accountId/transactions => ***GET***
 
+- http://localhost:8080/accounts/accountId/transactions/transactionId/revert => ***POST***
+
+
+## Ajuda para testar no insomnia
+
+Se você usar insmonia(ferramenta que testa APIS), assim como eu, você pode baixar o arquivo que está na pasta ``insomnia-requests`` na raiz desse projeto.
+
+
 ## Testes
 
-Como dito, esse projeto foi desenvolvido com o uso de TDD, então caso queira rodar os testes use:
+Como dito, esse projeto foi desenvolvido com o uso de TDD com a ferramenta **JEST**, então caso queira rodar os testes, use:
 
 ```
 npm run test

@@ -1,6 +1,6 @@
 import { CardTypeEnum } from "../../enums/card.enum";
 import { CardsI, CardType } from "../../interfaces/cards/cards.interface";
-import { MessagePattern, ObjectResponse } from "../../interfaces/general/message-pattern.interface";
+import { ObjectResponse } from "../../interfaces/general/message-pattern.interface";
 import { CardAccountRepositoryI } from "../../interfaces/repository/card_account-repository.interface";
 
 export default class CardUseCase implements CardsI {
@@ -10,10 +10,19 @@ export default class CardUseCase implements CardsI {
         this.#repository = repository;
     }
     
-    async create(card: CardType, account_id: number): Promise<MessagePattern> {
+    async create(card: CardType, account_id: number): Promise<ObjectResponse> {
+        if (card.type_id !== CardTypeEnum.PHYSICAL && card.type_id !== CardTypeEnum.VIRTUAL) {
+            return {
+                message: [],
+                error: 'Invalid type',
+                status: 400
+            }
+        }
+
         if (card.cvv.toString().length > 3) {
             return {
-                message: 'Invalid CVV',
+                message: [],
+                error: 'Invalid CVV',
                 status: 400
             }
         }
@@ -32,18 +41,28 @@ export default class CardUseCase implements CardsI {
             const cardObject: CardType = cardArray[0]; 
             const cardID = cardObject.id;
 
-            const creatingAssociation = await this.#repository.create({
+            await this.#repository.create({
                 account_id,
                 card_id: cardID
             }, 'account_card');
 
+            const cardObjectResponse = {
+                id: cardID,
+                type: cardObject.type_id,
+                number: cardObject.number,
+                cvv: cardObject.cvv,
+                createdAt: cardObject.created_at,
+                updatedAt: cardObject.updated_at
+            }
+
             return {
-                message: 'Created with success',
+                message: cardObjectResponse,
                 status: 201
             }
         } catch(error) {
             return {
-                message: 'Internal server error',
+                message: [],
+                error: 'Internal server error',
                 status: 500
             }
         }

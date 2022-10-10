@@ -103,4 +103,21 @@ export default class TransactionsController {
 
         return res.status(result.status).send({ message: result.message });
     }
+
+    static async revert(req: Request, res: Response) {
+        const { accountId, transactionId } = req.params;
+
+        const transactionsUseCase = new TransactionsUseCase(new GeneralRepository());
+        const result = await transactionsUseCase.revert(
+            parseInt(accountId),
+            parseInt(transactionId),
+            new TransactionTypeAdapter()
+        );
+
+        if (result.error) {
+            return res.status(result.status).send({ message: result.error });
+        }
+
+        return res.status(result.status).send({ message: result.message });
+    }
 }

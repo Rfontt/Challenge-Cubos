@@ -26,6 +26,10 @@ export default class CardController {
             parseInt(accountId, 10)
         );
 
+        if (createCard.error) {
+            return res.status(createCard.status).send({ message: createCard.error });
+        }
+
         return res.status(createCard.status).send({ message: createCard.message });
     }
 

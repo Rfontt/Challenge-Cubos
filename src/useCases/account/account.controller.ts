@@ -19,6 +19,10 @@ export default class AccountController {
             accountBody
         );
 
+        if (createPeople.error) {
+            return res.status(createPeople.status).send({ message: createPeople.error });
+        }
+
         return res.status(createPeople.status).send({ message: createPeople.message });
     }
 

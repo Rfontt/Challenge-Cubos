@@ -1,5 +1,5 @@
 import { AccountI, AccountType } from "../../interfaces/account/account.interface";
-import { MessagePattern, ObjectResponse } from "../../interfaces/general/message-pattern.interface";
+import { ObjectResponse } from "../../interfaces/general/message-pattern.interface";
 import { RepositoryI, WhereType } from "../../interfaces/repository/repository.interface";
 
 export default class AccountUseCase implements AccountI {
@@ -9,10 +9,11 @@ export default class AccountUseCase implements AccountI {
         this.#repository = repository;
     }
     
-    async create(account: AccountType): Promise<MessagePattern> {
+    async create(account: AccountType): Promise<ObjectResponse> {
         if (account.branch.length > 3) {
             return {
-                message: "Invalid value to branch",
+                message: [],
+                error: "Invalid value to branch",
                 status: 400
             }
         }
@@ -21,15 +22,25 @@ export default class AccountUseCase implements AccountI {
             const accountValue = this.accountSettings(account.account);
             account.account = accountValue;
 
-            await this.#repository.create(account, 'account');
+            const data: Object[] = await this.#repository.create(account, 'account');
+            const accountCreated = data[0] as AccountType;
+
+            const response = {
+                id: accountCreated.id,
+                branch: accountCreated.branch,
+                account: accountCreated.account,
+                createdAt: accountCreated.created_at,
+                updatedAt: accountCreated.updated_at
+            }
 
             return {
-                message: "Account created with success",
+                message: response,
                 status: 201
             };
         } catch (error) {
             return {
-                message: "Internal server error",
+                message: [],
+                error: "Internal server error",
                 status: 500
             }
         }

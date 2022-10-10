@@ -11,6 +11,7 @@ type TransactionsType = {
     account: AccountType
     created_at?: string;
     updated_at?: string;
+    receiverAccountId?: number;
 }
 
 interface TransactionsI {
@@ -22,7 +23,11 @@ interface TransactionsI {
     ): Promise<ObjectResponse>;
     getBalanceOneAccount(account_id: number): Promise<ObjectResponse>;
     getTransactions(account_id: number): Promise<ObjectResponse>;
-    revert(accountId: number, transactionId: number): Promise<ObjectResponse>;
+    revert(
+        accountId: number,
+        transactionId: number,
+        adapter: TransactionTypeAdapterI
+    ): Promise<ObjectResponse>;
 }
 
 export { TransactionsI, TransactionsType };
