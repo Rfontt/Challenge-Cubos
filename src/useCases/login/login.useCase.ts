@@ -24,9 +24,15 @@ export default class LoginUseCase implements LoginI {
                 );
 
                 if (comparePassword) {
-                    const tokenGenerated = jwt.sign({
-                        document: people.document
-                    }, `${process.env.JWT_KEY}`);
+                    const tokenGenerated = jwt.sign(
+                        {
+                            document: people.document
+                        }, 
+                        `${process.env.JWT_KEY}`,
+                        { 
+                            expiresIn: "1d" 
+                        }
+                    );
                     
                     return {
                         token: tokenGenerated,
