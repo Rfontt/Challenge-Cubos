@@ -143,7 +143,83 @@ export default class TransactionsUseCase implements TransactionsI {
         }
     }
 
-    async revert(accountId: number, transactionId: number): Promise<ObjectResponse> {
-        throw new Error("Method not implemented.");
+    async revert(
+        accountId: number,
+        transactionId: number,
+        adapter: TransactionTypeAdapterI
+    ): Promise<ObjectResponse> {
+        try {
+            const transaction = await this.selectData('id', transactionId, 'transaction');
+        
+            if (transaction.length > 0) {
+                const transactionObject = transaction[0] as TransactionsType;
+                const accountToRevert = await this.selectData('id', transactionObject.receiverAccountId, 'account');
+                const accountToReceiver = await this.selectData('id', accountId, 'account');
+
+                if (accountToRevert.length > 0 && accountToReceiver.length > 0) {
+                    const accountToReceiverObject = accountToReceiver[0] as AccountType;
+                    const accountToRevertObject = accountToRevert[0] as AccountType;
+
+                    if (
+                        accountToRevertObject.balance || 0 >= transactionObject.value
+                    ) {
+                        const newBalanceValueToaccountToRevert = accountToRevertObject.balance || 0 - transactionObject.value;
+                        const newValueToAccountRevert = accountToReceiverObject.balance || 0 + transactionObject.value;
+
+                        await adapter.updateBalance(
+                            newBalanceValueToaccountToRevert,
+                            transactionObject.receiverAccountId
+                        );
+
+                        await adapter.updateBalance(
+                            newValueToAccountRevert,
+                            accountId
+                        );
+
+                        return {
+                            message: {
+                                id: transactionObject.id,
+                                value: transactionObject.value,
+                                description: transactionObject.description,
+                                createdAt: transactionObject.created_at,
+                                updatedAt: transactionObject.updated_at
+                            },
+                            status: 201,
+                        }
+                    } else {
+                        return {
+                            message: [],
+                            error: "Value not available",
+                            status: 401
+                        }
+                    }
+                }
+
+                return {
+                    message: [],
+                    error: "Account not found",
+                    status: 404
+                }
+            }
+
+            return {
+                message: [],
+                error: "Transaction not found",
+                status: 404
+            }
+        } catch (error) {
+            return {
+                message: [],
+                error: "Internal server error",
+                status: 500
+            }
+        }
+    }
+
+    private async selectData(condition: string, value: any, table: string) {
+        const where: WhereType = { condition, value };
+        const data = await this.#repository.selectWhere(table, where);
+
+        return data;
     }
 }

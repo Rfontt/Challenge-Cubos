@@ -105,7 +105,7 @@ export default class TransactionTypeAdapter implements TransactionTypeAdapterI {
         }
     }
 
-    private async updateBalance(value: number, account_id: number | undefined): Promise<boolean> {
+    async updateBalance(value: number, account_id: number | undefined): Promise<boolean> {
         try {
             const newBalance = { balance: value };
             const where: WhereType = { condition: 'id', value: account_id };
