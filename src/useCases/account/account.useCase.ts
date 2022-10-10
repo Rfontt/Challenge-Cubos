@@ -12,7 +12,8 @@ export default class AccountUseCase implements AccountI {
     async create(account: AccountType): Promise<ObjectResponse> {
         if (account.branch.length > 3) {
             return {
-                message: "Invalid value to branch",
+                message: [],
+                error: "Invalid value to branch",
                 status: 400
             }
         }
