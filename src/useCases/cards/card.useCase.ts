@@ -11,6 +11,14 @@ export default class CardUseCase implements CardsI {
     }
     
     async create(card: CardType, account_id: number): Promise<ObjectResponse> {
+        if (card.type_id !== CardTypeEnum.PHYSICAL && card.type_id !== CardTypeEnum.VIRTUAL) {
+            return {
+                message: [],
+                error: 'Invalid type',
+                status: 400
+            }
+        }
+
         if (card.cvv.toString().length > 3) {
             return {
                 message: [],
